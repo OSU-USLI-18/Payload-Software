@@ -1,0 +1,172 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=7in}
+
+% 1. Fill in these details
+\def \CapstoneTeamName{		Code Monkeys in Space}
+\def \CapstoneTeamNumber{		33}
+\def \GroupMemberOne{			Mark Bereza}
+\def \GroupMemberTwo{			Joseph Struph}
+\def \GroupMemberThree{			Kevin Turkington}
+\def \CapstoneProjectName{		NASA University Student Launch Initiative}
+\def \CapstoneSponsorCompany{	Mechanical Engineering, OSU}
+\def \CapstoneSponsorPerson{		Dr. Nancy Squires}
+
+% 2. Uncomment the appropriate line below so that the document type works
+\def \DocType{		Problem Statement
+				%Requirements Document
+				%Technology Review
+				%Design Document
+				%Progress Report
+				}
+			
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+% 3. If the document is not to be signed, uncomment the RENEWcommand below
+\renewcommand{\NameSigPair}[1]{#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        \hfill 
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}   
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge CS Capstone \DocType \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge\CapstoneProjectName}\par
+            \vfill
+            {\large Prepared for}\par
+            \Huge \CapstoneSponsorCompany\par
+            \vspace{5pt}
+            {\Large\NameSigPair{\CapstoneSponsorPerson}\par}
+            {\large Prepared by }\par
+            Group\CapstoneTeamNumber\par
+            % 5. comment out the line below this one if you do not wish to name your team
+            \CapstoneTeamName\par 
+            \vspace{5pt}
+            {\Large
+                \NameSigPair{\GroupMemberOne}\par
+                \NameSigPair{\GroupMemberTwo}\par
+                \NameSigPair{\GroupMemberThree}\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        % 6. Fill in your abstract    
+        	The purpose of NASA's USLI is to construct and launch a rocket that will go at least a mile above ground, safely land, and deploy a rover capable of autonomous movement that will deploy solar cells after moving at least 5 feet from the rocket. 
+			In particular, the CS students on OSU's USLI team are responsible for designing, implementing, and testing all software necessary to accomplish this task. 
+			This will include rover motor control and obstacle avoidance, graphical representation of test flight data, and creation/maintenance of a website hosting project information and deliverables.
+        \end{abstract}     
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+% 7. uncomment this (if applicable). Consider adding a page break.
+%\listoffigures
+%\listoftables
+\clearpage
+
+% 8. now you write!
+\section{Problem Definition}
+The problem posed to the CS students taking part in OSU's USLI team is a small but important part of a much larger endeavor. The Oregon State University USLI team has chosen the deployable rover experiment, defined in the NASA USLI Handbook as follows:
+\begin{quote}
+Teams will design a custom rover that will deploy from the internal structure of the launch
+vehicle.
+At landing, the team will remotely activate a trigger to deploy the rover from the rocket.
+After deployment, the rover will autonomously move at least 5 ft. (in any direction) from the
+launch vehicle.
+Once the rover has reached its final destination, it will deploy a set of foldable solar cell panels \cite{USLI_handbook}.
+\end{quote}
+Overall, the goal of the competition is to: 
+\begin{enumerate}
+\item Construct and launch a rocket carrying a payload at least a mile (5,280 feet) above ground
+\item Have the rocket deploy a parachute and safely land within 2,500 feet of the launch point
+\item After landing and after a button press, deploy a rover
+\item Have the rover drive autonomously at least 5 feet away from the rocket landing site
+\item Have the rover deploy solar cells after being at least 5 feet from the landing site
+\item The solar cells will increase in surface area after deployment (unfold)
+\item Create formal technical reports regarding rocket/payload design and present them to a NASA review panel during several formal design review meetings
+\item Participate in educational outreach and get at least 200 individuals involved in the project
+\item Maintain a website detailing project information and hosting all competition deliverables
+\end{enumerate}
+\par The subset of these overall goals that pertain to the CS capstone students involves the research, design, implementation, and testing of software for the rover, in-flight rocket positional information, and the aforementioned website. 
+Additionally, the CS capstone students must contribute software design specifications and research to all reports and presentations required by the competition. 
+These include:
+\begin{enumerate}
+\item Preliminary Design Review report \& presentation
+\item Critical Design Review report \& presentation
+\item Flight Readiness Review report \& presentation
+\item Launch Readiness Review outline
+\item Post-Launch Assessment Review outline
+\end{enumerate}
+\par Finally, the team as whole, CS students included, must engage at least 200 participants by the end of the competition through direct, instructional, hands-on activities that serve to educate students in a STEM topic relating to the project. Educational Outreach is involved in this project not just as something NASA would like to promote, but as an actual category for scoring the competition as well.
+\section{Proposed Solution}
+Each proposed solution to the aforementioned problems can be separated into one of four categories: website creation/maintenance, rover intelligence, rocket flight information, and outreach.
+\subsection{Website Creation/Maintenance}
+The website will be fairly minimalist in appearance and hosted on the custom domain osuusli.com. Most of the content will be contained on the home page and the site itself will be implemented using a template. The site will contain, at a minimum:
+\begin{itemize}
+\item The team name and logo
+\item A list of all participants and their roles in the project
+\item A brief description of the project and our goals
+\item Download links for all project deliverables in .PDF form
+\item Download links for important design documents
+\item A visual time line of important events with dates, locations, and descriptions
+\end{itemize}
+\par Additionally, the website will be regularly updated as new information comes to light, membership grows, and deadlines come and go.
+\subsection{Rover Intelligence}
+In order to accomplish the broad goal of making the rover move autonomously, avoid obstacles, and deploy solar cells, the rover's micro controller must be loaded with fairly sophisticated software. Software for the rover will need to be capable of SLAM or simultaneous localization and mapping to track the location of the rover and properly navigate the landing area.
+\par In order to avoid the ever-present software development issue of reinventing the wheel, the Robot Operating System framework will be used to design software for the rover's intelligence.
+The Robot Operating System provides extensive tutorials and libraries in \verb!C++!, Python, and Lisp specifically designed for robotics applications, making it an ideal tool for our purposes.
+\par As for the programming language used for rover software, \verb!C++! will be used due to it's high performance, low memory overhead, its extensive standard libraries, and its support for multi-processing (a feature missing from most Python implementations). 
+The micro controller for the rover will be a Raspberry Pi 3 running Raspian, a Linux distribution specifically designed to run on a Raspberry Pi with support for ROS, making it the obvious choice for our purposes.
+\par Software will be written for the rover that will allow it to read data from its radar sensors and construct occupancy grids. 
+These occupancy grids will be combined with a software-implemented movement algorithm to perform autonomous movement aided with obstacle avoidance.
+Additionally, software will be designed to use sonar sensor data to determine the absolute distance and angle of the rocket relative to rover, which will allow it move away from the rocket and determine when it is at least 5 feet away.
+Finally, software will be designed for the rover to eject the solar cells once it has determined it has sufficiently cleared the landing site.
+\subsection{Rocket Flight Information}
+The rocket will be equipped with, at a minimum, an altimeter for elevation measurements and a GPS sensor. Information gathered by these sensors will be stored on a data logger during all test flights, and information from this data logger must be extracted and displayed in a human-readable fashion via a grpahic interface. A mature, easy-to-write programming language is a proper fit for designing a graphic interface such as this, so either \verb!C#! or Python will be used.
+\subsection{Outreach}
+The goal of reaching 200 people over the course of the competition will be reached through a combination of various strategies. While the team will try to meet and exceed this number, the quality and intent behind the outreach is important too. Outside of the K-12 requirement, the project sponsor would like to foster continued interest in projects like this at OSU from the AIAA (The American Institute of Aeronautics and Astronautics) club and students in the College of Mechanical Engineering. At the moment, these include leveraging primary school contacts to schedule classroom demos and presentations, distributing fliers, and collaborating with OSU clubs like rocketry and robotics to spread the word about our amazing project.
+Additionally, each member of the core team will volunteer to take an active role in educational outreach for two separate months between now and the competition's conclusion.
+\section{Performance Metrics}
+The following performance metrics will help evaluate the success or failure of this undertaking:
+\begin{itemize}
+\item The website runs without errors and is publicly accessible
+\item Users of the website can download PDFs for all deliverables before the due date.
+\item The rover will operate autonomously after the single button press for payload deployment
+\item The rover will move at least 5 feet from the rocket's land site before deploying operational solar cells
+\item The rover will drive its required distance without getting stuck on any obstacle for more than 15 minutes
+\item Software will be written that generates an accurate graphical representation of all data gather by the rocket's data logger
+\item All software written will be maintained using Git version control with remote repositories hosted on GitHub
+\item All software changes to the master branch will only be made after review and approval from at least one team member
+\item All code must compile without errors or warnings before deployment to the rover
+\item All software written for the rover will follow a single coding style
+\item All members of the CS team will attend every NASA review meeting
+\item The CS team members will contribute content to the PDR, CDR, and FRR reports describing the software utilized in the project, design decisions, and any pertinent research
+\item All CS team members will abide by the rules set forth in the launch and safety checklist, the local rocketry club's RSO, the Federal Aviation Administration's laws, and the High Power Rocket Safety Code
+\item The team as a whole will reach 200 people before the competition's conclusion
+\end{itemize}
+
+\newpage
+% bibliography
+\nocite{*}%if nothing is referenced it will still show up in refs
+\bibliographystyle{plain}
+\bibliography{bibliography}
+%end bibliography
+
+
+\end{document}
+\end{document}
