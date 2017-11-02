@@ -1,10 +1,40 @@
-all:
-	xelatex Group_33_Requirements_Document_Final.tex
-	xelatex Group_33_Requirements_Document_Final.tex
-	$(MAKE) clean
+LATEX	= pdflatex -shell-escape
+BIBTEX	= bibtex
+DVIPS	= dvips
+DVIPDF  = dvipdft
+XDVI	= xdvi -gamma 4
+GH		= gv
+
+SRC	:= $(shell egrep -l '^[^%]*\\begin\{document\}' *.tex)
+TRG	= $(SRC:%.tex=%.dvi)
+PSF	= $(SRC:%.tex=%.ps)
+PDF	= $(SRC:%.tex=%.pdf)
+
+pdf: $(PDF)
+
+ps: $(PSF)
+
+$(TRG): %.dvi: %.tex mission-profile.eps GanttChart.eps titlepage.pdf
+	$(LATEX) $<
+	$(LATEX) $<
+	$(LATEX) $<
+
+$(PSF):%.ps: %.dvi
+	$(DVIPS) -R -Poutline -t letter $< -o $@
+
+$(PDF): %.pdf: %.ps
+	ps2pdf $<
+
+show: $(TRG)
+	@for i in $(TRG) ; do $(XDVI) $$i & done
+
+showps: $(PSF)
+	@for i in $(PSF) ; do $(GH) $$i & done
+
+all: pdf
 
 clean:
-	rm -rf *.acn *.alg *.glg *.glo *.gls *.glsdefs *.ist *.xdy *.acr *.bbl *.blg *.aux *.dvi *.log *.lot *.idx *.toc *.lof *.brf *.out
+	rm -f Group_33_Requirements_Document_Final.pdf *.ps *.dvi *.out *.log *.aux *.bbl *.blg *.pyg *.toc *.c.tex *converted-to.pdf
 
-mrproper: clean
-	rm -rf *.pdf
+.PHONY: all show clean ps pdf showps
+
