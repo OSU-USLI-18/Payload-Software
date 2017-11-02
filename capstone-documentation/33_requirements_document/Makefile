@@ -1,6 +1,6 @@
 all:
-	xelatex srs.tex
-	xelatex srs.tex
+	xelatex Group_33_Requirements_Document_Final.tex
+	xelatex Group_33_Requirements_Document_Final.tex
 	$(MAKE) clean
 
 clean:
