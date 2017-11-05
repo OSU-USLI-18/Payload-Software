@@ -1,0 +1,128 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=7in}
+\def\code#1{\texttt{#1}}
+% 1. Fill in these details
+\def \CapstoneTeamName{		Code Monkeys in Space}
+\def \CapstoneTeamNumber{		33}
+\def \GroupMemberOne{			Written By: Joseph Struph}
+\def \GroupMemberTwo{			Team Members: Mark Bereza,}
+\def \GroupMemberThree{			Kevin Turkington}
+\def \CapstoneProjectName{		NASA University Student Launch Initiative}
+\def \CapstoneSponsorCompany{	Mechanical Engineering, OSU}
+\def \CapstoneSponsorPerson{		Dr. Nancy Squires}
+
+% 2. Uncomment the appropriate line below so that the document type works
+\def \DocType{		Technology Review and Implementation Plan
+				%Requirements Document
+				%Technology Review
+				%Design Document
+				%Progress Report
+				}
+			
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+% 3. If the document is not to be signed, uncomment the RENEWcommand below
+\renewcommand{\NameSigPair}[1]{#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+        \hfill 
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}   
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge CS Capstone \DocType \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge\CapstoneProjectName}\par
+            \vfill
+            {\large Prepared for}\par
+            \Huge \CapstoneSponsorCompany\par
+            \vspace{5pt}
+            {\Large\NameSigPair{\CapstoneSponsorPerson}\par}
+            {\large Prepared by }\par
+            Group\CapstoneTeamNumber\par
+            % 5. comment out the line below this one if you do not wish to name your team
+            \CapstoneTeamName\par 
+            \vspace{5pt}
+            {\Large
+                \NameSigPair{\GroupMemberOne}\par
+                \NameSigPair{\GroupMemberTwo}\par
+                \NameSigPair{\GroupMemberThree}\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        % 6. Fill in your abstract    
+The purpose of this document is to outline and examine technologies that could be utilized to implement the Data logging Module and it's associated features. 
+        \end{abstract}     
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+% 7. uncomment this (if applicable). Consider adding a page break.
+%\listoffigures
+%\listoftables
+\clearpage
+
+% 8. now you write!
+\section{Project Role}
+My role in the project will be point man for the avionics and Data Logging Module component of the CS sub-team. I volunteered for this role due to my experience of serial communication due to similar course work, and due to my interest in the subject. I will be in charge of programming the in flight avionics, data recorder, and ground station to display data. While the whole team will work on each portion of the project, one member will be in charge of each component.
+\section{Data Logging Module Description}
+The Data Logging Module involves the displaying of avionics information for the rocket after sensors have recorded various streams of data during test flights.
+The rocket will be equipped with, at a minimum, an altimeter for elevation measurements, 9 degrees of freedom IMU, barometer, and a GPS sensor. Information gathered by these sensors will be stored on a data logger called the Data Logging Module during all test flights, and information from this data logger must be extracted and displayed in a human-readable fashion. This is separated into the in-flight data recorder, parsing and formatting ground station, and Graphical user Interface to display the collected and formated data.
+\section{DLM: in-flight Recorder Operating System}
+\subsection{Selection Criteria}
+The most important aspects of an operating system for the DLM is reliability and compatibility with the Beagle bone black. The operating system must be capable of communicating with the Beaglebone Black's GPIO, and Serial communication ports. An operating system for the DLM must be lightweight in memory and resources requirements in order to run on the AM3358 1GHz ARM processor. The final selection criteria is the amount of documentation available for a specific operating system and the beagle bone black. Since the DLM is so closely tied to it's hardware both the BeagleBone black, and in flight sensors it is important to have additional documentation resources that detail hardware interaction.
+\subsection{Debian Stretch IOT}
+The official operating system for the beagle bone black is Debian Stretch IOT. Debian stretch is based on the ArmHardFloatPort of the Debian operating system. Debian Stretch is configured for the beaglebone black hardware, and as of 2015 is default installed on Revision C boards. In addition Debian Stretch has an active Elinux development and support forum for the operating system. Debian Stretch offers a non-GUI image that is specifically configured for the 4GB Flash Memory on the Beaglebone black. The in-flight recorder does not need a GUI to receive and record data from the on board sensors, which means it is lighter weight.
+\subsection{Ubuntu}
+ Canonical offers an IOT version of Ubuntu called Ubuntu Core that is lighter weight than the desktop version and focuses on security. Ubuntu core has plenty of documentation for supporting the raspberry Pi, but lacks any for the beagle bone black. The emphasis on security is a nice feature, but due to the nature of this project it is not necessary for the DLM to be secure.
+\subsection{Raspbian}
+Raspbian is based on Debian Stretch but specifically optimized to run on the Raspbaerry Pi's ARM CPU. The main benefit it offers is familiarity and compatibility with the rover maneuvering software environment. If Raspbian was chosen for the DLM as well it means that one development and testing environment could be shared for both components of the overall project. This adds the benefit of less overhead for setting up an additional development/testing environment, and it means less learning overhead.
+\subsection{Implementation Choice}
+While all three choices can run on the Beaglebpone black's ARM CPU, only Debian Stretch IOT is specifically configured for the beaglebone Black's 4GB Flash memory. In addition no other operating system has the documentation available that Debian Stretch IOT does. Both of these factors meet the selection criteria and make Debian Stretch the best choice for implementing the DLM in-flight recorder.
+\section{DLM: in-flight Recorder Software Libraries}
+\subsection{Selection Criteria}
+A software library for the DLM must be able to make serial communication with the on board sensors easier, while being compatible with the operating system, and the beaglebone black. Next the software library should not have a huge learning curve so that collaboration with team mates and underclassmen is not to difficult. The software library should be flexible/portable enough that aids in development, rather than forces development in a certain direction. Another factor is the quality of documentation for the library, and the availability of examples and tutorials.
+\subsection{Adafruit IO Python Library}
+Adafruit has created a python library specifically for Serial IO on the beaglebone black called \code{Adafruit\_BBIO}. The IO Python library supports SPI, I2C, and UART serial communication ports on the Beaglebone black. Adafruits's website has extensive documentation for each serial communication protocol. In addition it has code snippets and examples available which are invaluable when first using a new library. The Adafruit Python library has functions for different data rates and bit lengths, reading, and transmitting. Making it very modular and leverage-able for the in flight data recorder.
+\subsection{RXTX}
+\code{RXTX} is a Java library for general serial and parallel communication. RXTX is not specific to any hardware implementation, and can be installed on the beaglebone black through installing the Java Development Kit (JDK). RXTX has a wiki online which is it's only source of documentation, and lacks any specific documentation to the beaglebone black.
+\subsection{Seriallib}
+\code{Seriallib} or Simple Serial Library is a C++ library for communicating with serial port devices on windows or Linux. Seriallib is true to name an is a small library with a few read and write commands all in only two files, while this allows for a lot of flexibility it is limited in functionality. Other than one example file included in the library there is no other code examples available. A Doxygen website is all that is available in terms of documentation.
+\subsection{Implementation Choice}
+The Adafruit Python IO library is the standout best choice for implementing the DLM in flight recorder. Due to it's compatibility with the beaglebone black, extensive documentation, and code snippets it matches the selection criteria perfectly. RXTX and Seriallib both lack documentation and specificity to the beaglebone black hardware that the Adafruit Python IO library has.
+\section{DLM: Ground Station Software}
+\subsection{Selection Criteria}
+The DLM Ground station software must be capable of parsing and displaying the recorded in-flight data in a user friendly and useful way. The data will be stored in text files, which is readable by most any language, so the GUI for the ground station is more important than the data processing itself. The software could be a local or remote application either viewable on the launch site or available online and at the launch site. A technology that allowed for both would be the ideal choice.
+\subsection{C\#}
+C\# is a modern language, and would be an ideal choice for parsing and any data processing that had to be done before displaying it to the user via a GUI. C\# with .NET Core allows the creation of web applications meaning the front end and back end could be written in the same language. C\# also has good support for creating local applications and a wealth of documentation.
+\subsection{Python}
+Python lacks a cohesive GUI library, but is an option with numerical and mathematics libraries like numpy to make data processing easy. Python also lacks modern web application front end frameworks, the best known being Django, but is left behind by more modern counterparts.
+\subsection{Node.js}
+The cross-platform JavaScript runtime environment is best suited for creating web applications. While data processing may not be as easy, creating a web interface to display the data would make it accessible on the team website as opposed to just a local ground station.
+\subsection{Implementation Choice}
+To implement the ground station GUI both C\# and Node.js will be utilized. C\# for data processing and parsing, possibly to JSON. Then a Node.js web application to display the data, and make it available on the website. C\# meets the selection criteria of data processing, and Node.js meets the criteria of displaying the data online rather than a local application only.
+\newpage
+% bibliography
+\nocite{*}%if nothing is referenced it will still show up in refs
+\bibliographystyle{plain}
+\bibliography{bibliography}
+%end bibliography
+
+
+\end{document}
+\end{document}
