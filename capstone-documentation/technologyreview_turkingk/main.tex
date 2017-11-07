@@ -1,0 +1,140 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{setspace}
+%\usepackage{bibtex}
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=7in}
+
+% 1. Fill in these details
+\def \CapstoneTeamName{		USLI CS Payload Subteam}
+\def \CapstoneTeamNumber{		33}
+\def \GroupMemberOne{			Mark Bereza}
+\def \GroupMemberTwo{			Joseph Struth}
+\def \GroupMemberThree{			Kevin Turkington}
+\def \CapstoneProjectName{		NASA University Student Launch Initiative}
+\def \CapstoneSponsorCompany{	Mechanical Engineering, Oregon State University NASA}
+\def \CapstoneSponsorPerson{		Dr. Nancy Squires}
+
+% 2. Uncomment the appropriate line below so that the document type works
+\def \DocType{		Technology Review and Implementation Plan
+				%Requirements Document
+				%Technology Review
+				%Design Document
+				%Progress Report
+				}
+			
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+% 3. If the document is not to be signed, uncomment the RENEWcommand below
+%\renewcommand{\NameSigPair}[1]{#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+    	%%\includegraphics[height=4cm]{coe_v_spot1}
+        \hfill 
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}   
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge CS Capstone \DocType \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge\CapstoneProjectName}\par
+            \vfill
+            {\large Prepared for}\par
+            \Huge \CapstoneSponsorCompany\par
+            \vspace{5pt}
+            {\Large\NameSigPair{\CapstoneSponsorPerson}\par}
+            {\large Prepared by }\par
+            Group\CapstoneTeamNumber\par
+            % 5. comment out the line below this one if you do not wish to name your team
+            \CapstoneTeamName\par 
+            \vspace{5pt}
+            {\Large
+                \NameSigPair{\GroupMemberOne}\par
+                \NameSigPair{\GroupMemberTwo}\par
+                \NameSigPair{\GroupMemberThree}\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        % 6. Fill in your abstract    
+        	This document is written using one sentence per line.
+        	This allows you to have sensible diffs when you use \LaTeX with version control, as well as giving a quick visual test to see if sentences are too short/long.
+        	If you have questions, ``The Not So Short Guide to LaTeX'' is a great resource (\url{https://tobi.oetiker.ch/lshort/lshort.pdf})
+        \end{abstract}     
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+% 7. uncomment this (if applicable). Consider adding a page break.
+%\listoffigures
+%\listoftables
+\clearpage
+
+% 8. now you write!
+\section{Rover}
+\subsection{Collision avoidance}
+The rover itself is a key component to the University Student Launch initiative. As it provides Oregon State University to produce a given experiment that will be contained within the launch vehicle. The sole purpose of this experiment is to move autonomously away from any piece of the launch vehicle at a minimum of five feet while deploying solar panels upon reaching its final destination.
+\subsubsection{Option 1}
+The first and most simple option for the rovers collision avoidance, is to rig the rover solely with bumper style sensors. Similar to the Tekbots used in Oregon State Universities ECE 272 and ECE 375 labs. After deployment the rover would simply move forward in a single direction away from the rover. The bumper sensors would assist when the rover simply runs into an object. Upon impact a set of instructions would be run turning the rover slightly to either the left of the right depending on the bumper that was activated. Additionally sub routines could be introduced making the rover move completely in a different direction upon three consecutive bumper activations. However this method would not guarantee the rover has moved at least five feet from any part of the launch vehicle.
+\subsubsection{Option 2}
+The second more complex option for rover collision avoidance is to include a type of non contact sensor. Such as SONAR, LIDAR, or RADAR. Depending on the sensors chosen the detection ranges can range by several feet. The benefits of using a non contact collision avoidance system is that it can be paired with ROS (The robot operating system) to dynamically creating mappings of its surroundings. These mappings can detect if the rover were to move into a dead end area. Addtionally the scope of the area the rover could view would be a 60+ degree cone from the forward facing direction of the rover. Allowing it to detect multiple objects at once, enabling it to weave throughout them seamlessly. As opposed to ramming into objects in its path and turning 90 degrees in the other direction (the method the simple bumpers would use.) Moreover SONAR, LIDAR, and RADAR sensors have a significantly smaller form factor to their bumper actuator cousin in Option 1 for rover collision avoidance.
+\subsubsection{Option 3}
+The most complex option in rover collision avoidance as well as destination mapping, would be fitting the rover with a GPS module sending itself coordinates of its current position
+
+\section{Avionics}
+\subsection{Option 1}
+blah blah
+\subsection{Option 2}
+blah blah
+\subsection{Option 3}
+blah blah
+
+\section{Website}
+\subsection{Front-end}
+Overall the front end technologies are the most important part of the website because of three key factors: maintainability, ease of use, and refactorability. Anything displayable on the website that the end user NASA or OSU students can view must be easy to maintain  as well as easy to change at any time. The website can change due to specific team leads needs and wants for the website since it is a vital component of OSU USLI's documentation delivery to NASA and subject to the USLI competitions Best Website award. 
+\subsubsection{Static HTML}
+One of simplest and easiest ways to put up a website is to statically serve pure HTML and CSS. This option is simplistic and wouldn't require much of the USLI computer science students to do, while also allowing other USLI team members and volunteers to contribute to the web project. The main draw back to using static HTML is the minimal degree of functionality. This option limits the page to purely serving content without the ability of enabling outside libraries like JQuery for Dom manipulation or relatively more complex POST/GET requests to the server side than simple HTML forms. 
+\subsubsection{React}
+On a higher level of web development React can be used for a clean method for DOM manipulation. React excels with its ability for easily maintainable and readable interface code, However there are some large draw backs to the framework. For example React is best used in combination with Typescript a subset of Javascript created by Microsoft. This language requires the use of multiple libraries like Webpack from previous experience takes time to setup correctly. Additionally most underclassmen as well as seniors have little to no Web development experience let alone experience with React, leaving those who exclusively wanted to contribute to the teams website a significant hurdle to jump over in terms of learning the React framework.
+\subsubsection{Handlebars}
+The middle ground between static HTML and React would be the use of Handlebars or a Handlebars like templating engine. The benefits of using a templating engine is if the DOM on load is affected by passed in data from the server (this is most useful for applications utilizing CRUD operations for a database back-end). Additionally Handlebars is widely taught at Oregon State University's web development classes providing web development experience for underclassmen about to take the web development class as well as after. The primary drawback of this framework is the OSU USLI website would not utilize any sort of back-end database.
+
+\subsection{Back-end}
+The main purpose of a websites backend is to act as the main component for serving web pages to the end user, as well as a a mid point for any database that the end user may need access to. In context to the OSU USLI website the server side will solely be used for content serving for the end user (NASA and OSU USLI team members.)
+\subsubsection{Django}
+The easiest option in terms of setup out of the three options for frameworks would be Django because of its extensive documentation, functional and easy to use language (python), and vast collection of libarays to choose from for templating, database, etc. And the ability for projects to be setup immediately with only a couple commands to the terminal. However the frameworks largest problems is the painfully slow and inefficient processing times compared to its alternatives. As well as none of the OSU USLI computer science students have used the platform nor have any of the computer science underclassmen, requiring a small amount of research and tinkering of those working on the website. 
+\subsubsection{NodeJS}
+The NodeJS framework offers alot of support and documentation for developers indicating an excellent choice for the OSU USLI team. NodeJs's primary language is JavaScript which is loosely typed allowing for quicker development of all simple server side processes such as routing and simple data manipulation. However if library are used most tend to be asyncronous requiring knowledge and development experience using promises within the NodeJs framework. as well as debugging can be trouble some in JavaScript because the language was developed in a short time frame and is loosely typed.
+\subsubsection{Dotnet Core}
+Dotnet Core is the most efficient of the three frameworks because of its primary language C\#. Additionally the framework offers cross platform development allowing any person on the OSU USLI team the ability to help develop whether it be on Mac, Windows, or Linux. Any allows for any web application to be easily scalable if the website where to gain a significant amount of views end users over the internet. However the platform does require sometime to setup and a little bit of a technical hurdle for underclassmen to learn C\# as well. 
+
+
+\subsection{Hosting Services}
+Because its unreliable and costly for individual members of the OSU USLI team to host the team website with a personal server the following choices were devised:
+\subsubsection{Amazon Web Services}
+the Amazon Web Services(AWS) is a great platform for developers to have complete control over their web application in every way. Allowing the developer to choose what type of operating system will be used to host, and customized to any configuration. AWS also supports ease of scalability with different payment plans. The drawback to this option is although it may be cheap the system will need to be tested and updated at least once every month for content changes to the website as well as simple operating system updates.
+\subsubsection{Heroku}
+Heroku works similarly to Amazon Web Services how ever some of the operating system configurations are obfuscated to the developer leaving less room for customization. However this is not a big factor for the OSU USLI website because of its simplicity. Additionally the platform offers a Git like interface for updating the codebase quickly, and can provide a great learning experience for computer science underclassmen on the USLI team. The drawback is the free option on herokus platform form will only run the web app for 1000 hours out of the month and will make the sever sleep after 30 minutes of inactivity. Leave room for the website to potentially be offline when NASA checks the website.
+\subsubsection{Github.IO}
+Github IO is the most promising out of all the platform choices because of free unlimited hosting of a single website under a given project. Additionally the codebase would be stored with the rest of the teams work under the OSU-USLI-18 Github Organization leaving any member of the team access to the website at anytime. This platform also obfuscates any and all server side code leaving limitations in terms of server side data handling. However since the website only needs to serve the html and pdf files Github IO is the perfect option. 
+
+% bibliography
+\nocite{*}%if nothing is referenced it will still show up in refs
+\bibliographystyle{plain}
+%\bibliography{bibliography}
+%end bibliography
+
+\end{document}
+
+
+
