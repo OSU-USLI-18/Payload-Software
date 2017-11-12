@@ -1,0 +1,8 @@
+language: cpp
+
+env:
+  - ARCH=x64
+  - ARCH=arm
+
+script:
+  - "bash -ex build.sh"
