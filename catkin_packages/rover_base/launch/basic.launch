@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="stage_ros" type="stageros" name="simulator" args="$(find rover_base)/worlds/manyDots.world"/>
+</launch>
