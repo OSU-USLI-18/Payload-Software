@@ -18,7 +18,7 @@ ps: $(PSF)
 # $(TRG): %.dvi: %.tex *.bib $(EXAMPLES)
 $(TRG): %.dvi: %.tex $(EXAMPLES)
 	$(LATEX) $<
-	#$(BIBTEX) $(<:%.tex=%)
+	$(BIBTEX) $(<:%.tex=%)
 	$(LATEX) $<
 	$(LATEX) $<
 
