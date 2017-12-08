@@ -1,0 +1,122 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{setspace}
+%\usepackage{bibtex}
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=7in}
+
+% 1. Fill in these details
+\def \CapstoneTeamName{		USLI CS Payload Subteam}
+\def \CapstoneTeamNumber{		33}
+\def \GroupMemberOne{			Joseph Struth}
+\def \GroupMemberTwo{			Mark Bereza}
+\def \GroupMemberThree{			Kevin Turkington}
+\def \CapstoneProjectName{		NASA University Student Launch Initiative}
+\def \CapstoneSponsorCompany{	Mechanical Engineering, OSU and NASA}
+\def \CapstoneSponsorPerson{		Dr. Nancy Squires}
+
+% 2. Uncomment the appropriate line below so that the document type works
+\def \DocType{		Problem Statement
+				%Requirements Document
+				%Technology Review
+				%Design Document
+				%Progress Report
+				}
+			
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+% 3. If the document is not to be signed, uncomment the RENEWcommand below
+%\renewcommand{\NameSigPair}[1]{#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+    	%%\includegraphics[height=4cm]{coe_v_spot1}
+        \hfill 
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}   
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge CS Capstone \DocType \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge\CapstoneProjectName}\par
+            \vfill
+            {\large Prepared for}\par
+            \Huge \CapstoneSponsorCompany\par
+            \vspace{5pt}
+            {\Large\NameSigPair{\CapstoneSponsorPerson}\par}
+            {\large Prepared by }\par
+            Group\CapstoneTeamNumber\par
+            % 5. comment out the line below this one if you do not wish to name your team
+            \CapstoneTeamName\par 
+            \vspace{5pt}
+            {\Large
+                \NameSigPair{\GroupMemberOne}\par
+                \NameSigPair{\GroupMemberTwo}\par
+                \NameSigPair{\GroupMemberThree}\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        % 6. Fill in your abstract    	
+        The NASA USLI challenge involves universities across the US competing in a variety of aerospace and avionics experiments. Students are challenged to design and execute a successful rocket launch and can compete in a few subcategories. The Oregon State team has chosen to design and deploy a Rover as payload of the rocket that will autonomously deploy a set of solar panels. This document will detail the problem, proposed solutions, and the success metrics for the USLI challenge.
+        \end{abstract}     
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+% 7. uncomment this (if applicable). Consider adding a page break.
+%\listoffigures
+%\listoftables
+\clearpage
+
+% 8. now you write!
+\section{Definition and Problem Description}
+The NASA University Student Launch Initiative has three separate categories teams can compete in: 1) target identification, 2) deployable
+rover, or 3) landing coordinates via triangulation. The Oregon State University USLI team has chosen the deployable rover experiment. Our Computer Science team is responsible for designing the maneuvering algorithm and software for the rover payload. The definition from NASA for the deployable rover are as follows:
+\begin{quote}
+Teams will design a custom rover that will deploy from the internal structure of the launch
+vehicle.
+At landing, the team will remotely activate a trigger to deploy the rover from the rocket.
+After deployment, the rover will autonomously move at least 5 ft. (in any direction) from the
+launch vehicle.
+Once the rover has reached its final destination, it will deploy a set of foldable solar cell panels [1].
+\end{quote}
+
+The entire USLI team is comprised of multiple sub-teams of Electrical, mechanical engineers, and ourselves the software engineers. The Computer Science team will work with the Payload sub-team to ensure successful deployment of the rover. Part of the NASA USLI challenge includes educational outreach to students in the K-12 range. The outreach will take form of educational presentations of rocketry and aerospace topics. NASA describes outreach as: 
+\begin{quote}
+ A count of participants in instructional, hands-on activities where participants engage in learning
+a STEM topic by actively participating in an activity. This includes instructor- led facilitation around an activity regardless of
+media (e.g. DLN, face-to-face, downlink.etc.) [1].
+\end{quote}
+Educational Outreach is involved in this project not just as something NASA would like to promote, but as an actual category for scoring the competition as well. The Oregon State USLI team will treat educational outreach with the same importance as the rocket launch and successful payload delivery as all are part of the competition. Another aspect of the USLI challenge is a series of formal design reviews with NASA engineers and other experts in the field. These serve to ensure the team meets safety requirements, can justify design decisions, and are on track for a successful launch event for the competition in April.
+
+\section{Proposed Solution}
+\subsection{Rover}
+Our proposed solution for the rover is a two wheeled vehicle that will fit inside the launch vehicle or rocket. Currently the payload sub team is still in the preliminary design phase, meaning that designs for the rover are not yet finalized. The rover will have a variety of sensors to help control and navigate. Preliminary designs include sensors for Radar, bumpers, GPS, and possibly a gyroscope all to help gather input about the rovers surroundings. As for the compute hardware the current plan is to use a Raspberry Pi 3 as the micro controller. Other smaller micro controllers such as an Atmel or Arduino were considered, but fell short of the needed processing power that the rover calls for. Software for the rover will need to be capable of SLAM or simultaneous localization and mapping to track the location of the rover and properly navigate the landing area. To implement the maneuvering algorithm an open source robotics library called ROS or Robot Operating System will be used. For our project we settled on the C++ version of ROS. The code for the rover will be open-source to make it available for other future teams, or as a learning tool for interested students.
+\subsection{Educational Outreach}
+To meet the goals set by NASA and the USLI team for educational outreach, our team plans to reach out to local K-12 schools and put on educational presentations and experiments on aerospace and general STEM topics. The official USLI requirement states that outreach should number at least 200 total students. While the team will try to meet and exceed this number, the quality and intent behind the outreach is important too. The current plan is that team members will sign up to be responsible for one month of outreach activities with at least 2 activities a month. In addition team members will reach out to past teachers or other contacts at local schools in the area. Outside of the K-12 requirement, the project sponsor would like to foster continued interest in projects like this at OSU from the AIAA (The American Institute of Aeronautics and Astronautics) club and students in the College of Mechanical Engineering. Our team plans to do this by encouraging underclassmen interested in the project to learn, work, and even attend project meetings along side the team. 
+\section{Performance Metrics}
+\subsection{Rover}
+Our team will aim to exceed performance metrics in any areas we are capable of, but our first priority is meeting the minimum requirements of the USLI challenge for the rover. The first and most important metric of success is that the rover will move five feet in any direction autonomously. Second, after moving at least 5 feet the rover will autonomously deploy a set of solar panels. These minimum requirements will be verified during rover testing during the final design stages before the competition in April. Above the minimum requirements, our team would like the rover to travel farther than the required distance, be capable of angling solar panels to the optimum angle for the sun, and interact with GPS data to reach specified coordinates.
+\subsection{Educational Outreach}
+To meet the goal of educational outreach for the project, our success measurements will be that each team member participates in one month of outreach at K-12 schools or other events. Above and beyond the minimum goals for the project we plan to incorporate involving underclassmen in the project with the aim of educating, and spurring interest in the field. 
+\subsection{General}
+Another minimum success metric is that the team will create and support a website for distributing design review documents and files which can be used by NASA or others to obtain the work done by the OSU USLI team (in the form of .pdf design reviews). Above and beyond creating a website, the team will attempt to educate and involve students and community members on social media and the website to educate about the progress of the project and foster interest in the project.
+\newpage
+\section{Bibliography}
+[1] “2018 NASA Student Launch College and University Handbook,” NASA, 2018. [Online]. Available: https://www.nasa.gov/sites/default/files/atoms/files/nsl\_un\_2018.pdf .
+
+
+\end{document}
+
+
