@@ -1,0 +1,25 @@
+#!/bin/bash
+#-------------------------------------#
+# Author: Kevin Turkington (Zainkai)
+# Description: Catkin CLI tool
+#-------------------------------------#
+
+VERSION=0.0.1
+PROGNAME="Easy-Catkin"
+
+if [ $1 == "-v" ]
+then
+    echo "$PROGNAME: version: $VERSION"
+elif [ $1 == "build" ]
+then
+    echo "$PROGNAME: building..."
+    catkin_make
+    source devel/setup.bash
+elif [ $1 == "clean" ]
+then
+    echo "$PROGNAME: cleaning..."
+    rm -rf ./devel
+    rm -rf ./build
+else
+    echo "$PROGNAME: command not found"
+fi
