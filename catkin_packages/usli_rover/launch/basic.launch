@@ -1,5 +1,0 @@
-<launch>
-  <node pkg="stage_ros" type="stageros" name="simulator" args="$(find usli_rover)/worlds/manyDots.world"/>
-
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find rob456_hw3)/rvizsetup.rviz"/>
-</launch>

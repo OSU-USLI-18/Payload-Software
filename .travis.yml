@@ -1,8 +1,0 @@
-language: cpp
-sudo: required
-env:
-  - ARCH=x64
-  - ARCH=arm
-
-script:
-  - "bash -ex .travis-ci.sh"
