@@ -5,6 +5,7 @@
 
 #server web connected interface
 serverweb="enp3s0"
+#beaglebone usb interface
 bbbInterface="enx38d269442378"
 
 ifconfig $bbbInterface 192.168.7.1
