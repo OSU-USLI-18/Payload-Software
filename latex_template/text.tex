@@ -1,0 +1,58 @@
+\section{sectioning example}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elit nisl, mollis non blandit eu, lobortis a ex. Nullam et urna venenatis velit sollicitudin rutrum in ut ligula. Vivamus eget metus lorem. Integer id ligula interdum, luctus orci at, elementum risus. Nunc lobortis enim vitae nulla vehicula, quis tristique nisl faucibus. Donec imperdiet turpis metus, fringilla volutpat tortor ultrices sit amet.
+\subsection{ipsum}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elit nisl, mollis non blandit eu, lobortis a ex.
+\subsubsection{dolor}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elit nisl, mollis non blandit eu, lobortis a ex. Nullam et urna venenatis velit sollicitudin rutrum in ut ligula. Vivamus eget metus lorem. Integer id ligula interdum, luctus orci at, elementum risus. 
+
+\newpage %forces a new page
+\section{examples}
+\subsection{quoting stuff}
+something im quoting here\cite{USLI_handbook}
+
+\subsection{lists}
+
+\subsubsection{unordered list}
+\begin{itemize}
+\item thing 1
+\item thing 2
+\end{itemize}
+
+\subsubsection{ordered list}
+\begin{enumerate}
+\item thing 1
+\item thing 2
+\end{enumerate}
+
+\subsection{pictures}
+\begin{figure}[hp]
+	\centering
+	\includegraphics[scale=.9]{meme.jpg}
+	\caption{we get it nasa...}
+\end{figure}
+
+\subsection{tables}
+if you have a complex table import it as a picture
+\\% <<< this acts as a new line
+
+% Documentation: https://en.wikibooks.org/wiki/LaTeX/Tables
+\begin{table}[hp]
+\centering
+\begin{tabular} {l p{0.45\linewidth} p{0.45\linewidth}} \textbf{Week} & \textbf{Work Done} & \textbf{Problems Encountered}\\\hline
+item 1 & item 2 & item 3 \\
+item 1 & item 2 & item 3 \\
+\end{tabular}
+\caption{this is my table}
+\end{table}
+
+\subsection{math equations}
+
+\[
+e^{\pi i} + 1 = 0
+\]
+
+\[
+x^n + y^n = z^n
+\]
+
+
