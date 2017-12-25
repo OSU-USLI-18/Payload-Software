@@ -6,7 +6,6 @@
 \documentclass[onecolumn, draftnofoot, 10pt, compsoc]{IEEEtran}
 %imported packages
 \usepackage{hyperref}
-\usepackage{bibtex}
 \usepackage{graphicx}
 \usepackage{geometry}
 %documentation for math: https://en.wikibooks.org/wiki/LaTeX/Mathematics
@@ -26,7 +25,40 @@
 
 
 %title page
-\begin{document}
+\begin{document}% <<< START WRITING HERE
+\tableofcontents
+
+
+\section{sectioning}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elit nisl, mollis non blandit eu, lobortis a ex. Nullam et urna venenatis velit sollicitudin rutrum in ut ligula. Vivamus eget metus lorem. Integer id ligula interdum, luctus orci at, elementum risus. Nunc lobortis enim vitae nulla vehicula, quis tristique nisl faucibus. Donec imperdiet turpis metus, fringilla volutpat tortor ultrices sit amet. Nulla facilisi. Phasellus sodales orci quis molestie vestibulum. Nunc tempor cursus enim, non gravida urna malesuada quis. Nam in vehicula tortor. Mauris tincidunt egestas orci sed rhoncus. Pellentesque ac dapibus nisi, pretium tristique ipsum. Ut tincidunt est vel lectus pellentesque feugiat. Sed eget lacus eros. Quisque non nibh sodales, finibus augue ac, porta sapien.
+\subsection{ipsum}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elit nisl, mollis non blandit eu, lobortis a ex. Nullam et urna venenatis velit sollicitudin rutrum in ut ligula. Vivamus eget metus lorem. Integer id ligula interdum, luctus orci at, elementum risus. Nunc lobortis enim vitae nulla vehicula, quis tristique nisl faucibus.
+\subsubsection{dolor}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elit nisl, mollis non blandit eu, lobortis a ex. Nullam et urna venenatis velit sollicitudin rutrum in ut ligula. Vivamus eget metus lorem. Integer id ligula interdum, luctus orci at, elementum risus. Nunc lobortis enim vitae nulla vehicula, quis tristique nisl faucibus. Donec imperdiet turpis metus, fringilla volutpat tortor ultrices sit amet. Nulla facilisi. Phasellus sodales orci quis molestie vestibulum. Nunc tempor cursus enim, non gravida urna malesuada quis. Nam in vehicula tortor. Mauris tincidunt egestas orci sed rhoncus. Pellentesque ac dapibus nisi, pretium tristique ipsum. Ut tincidunt est vel lectus pellentesque feugiat. Sed eget lacus eros. Quisque non nibh sodales, finibus augue ac, porta sapien.
+
+
+\newpage
+\section{other stuff}
+\subsection{quoting stuff}
+something im quoting here\cite{USLI_handbook}
+
+\subsection{lists}
+
+\subsubsection{unordered list}
+\begin{itemize}
+\item thing 1
+\item thing 2
+\end{itemize}
+
+\subsubsection{ordered list}
+\begin{enumerate}
+\item thing 1
+\item thing 2
+\end{enumerate}
+
+\subsection{tables}
+if you have a complex table import it as a picture (examples provided below)
+
 
 
 % bibliography
