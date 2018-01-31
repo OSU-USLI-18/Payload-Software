@@ -3,17 +3,18 @@
 %	Mark Bereza
 %	Joseph Struth
 
-\documentclass[onecolumn, draftnofoot, 10pt, compsoc]{IEEEtran}
+
+\documentclass[onecolumn, draftclsnofoot, 10pt, compsoc]{IEEEtran}
 %imported packages
 \usepackage{hyperref}
-\usepackage{bibtex}
 \usepackage{graphicx}
 \usepackage{geometry}
+\usepackage{caption}
+\usepackage{float}
 %documentation for math: https://en.wikibooks.org/wiki/LaTeX/Mathematics
 \usepackage{amsmath} %equations are done with this package
 %for tables use tabular
-%table documentation found here: https://www.sharelatex.com/learn/Tables
-
+\captionsetup{justification=centering}
 %page settings
 \geometry{textheight=9.5in, textwidth=7in}
 \hypersetup{pdfauthor={nxkryptor},
@@ -26,4 +27,19 @@
 
 
 %title page
+\begin{document}% <<< START WRITING HERE
+\tableofcontents
+\listoffigures
+\listoftables
 
+%ONLY WTIE THINGS IN text.tex
+\input{text.tex}
+
+\newpage %forces a new page
+% bibliography
+\nocite{*}%if nothing is referenced it will still show up in refs
+\bibliographystyle{plain}
+\bibliography{main}
+%end bibliography
+
+\end{document}
