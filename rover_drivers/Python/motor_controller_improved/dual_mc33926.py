@@ -1,35 +1,31 @@
+#!/usr/bin/env python2 
 import wiringpi
 import time
-from enum import Enum
-
-class Direction(Enum):
-    Forward = 0
-    Backward = 1
+import sys
 
 #move to a constants file.
 MAX_SPEED = 480  # 19.2 MHz / 2 / 480 = 20 kHz
 io_initialized = False
 
-
 def io_init():
-  global io_initialized
-  if io_initialized:
-    return
+    global io_initialized
+    if io_initialized:
+        return
 
-  wiringpi.wiringPiSetupGpio()
-  wiringpi.pinMode(12, wiringpi.GPIO.PWM_OUTPUT)
-  wiringpi.pinMode(13, wiringpi.GPIO.PWM_OUTPUT)
+    wiringpi.wiringPiSetupGpio()
+    wiringpi.pinMode(12, wiringpi.GPIO.PWM_OUTPUT)
+    wiringpi.pinMode(13, wiringpi.GPIO.PWM_OUTPUT)
 
-  wiringpi.pwmSetMode(wiringpi.GPIO.PWM_MODE_MS)
-  wiringpi.pwmSetRange(MAX_SPEED)
-  wiringpi.pwmSetClock(2)
+    wiringpi.pwmSetMode(wiringpi.GPIO.PWM_MODE_MS)
+    wiringpi.pwmSetRange(MAX_SPEED)
+    wiringpi.pwmSetClock(2)
 
-  wiringpi.pinMode(22, wiringpi.GPIO.OUTPUT)
-  wiringpi.pinMode(23, wiringpi.GPIO.OUTPUT)
-  wiringpi.pinMode(24, wiringpi.GPIO.OUTPUT)
-  wiringpi.pinMode(25, wiringpi.GPIO.OUTPUT)
+    wiringpi.pinMode(22, wiringpi.GPIO.OUTPUT)
+    wiringpi.pinMode(23, wiringpi.GPIO.OUTPUT)
+    wiringpi.pinMode(24, wiringpi.GPIO.OUTPUT)
+    wiringpi.pinMode(25, wiringpi.GPIO.OUTPUT)
 
-  io_initialized = True
+    io_initialized = True
 
 class Motor(object):
     def __init__(self, pwm_pin, direction_pin, enable_pin):
@@ -39,11 +35,11 @@ class Motor(object):
 
     def enable(self):
         io_init()
-        wiringpi.digitalWrite(self.enable_pin, 0)
+        wiringpi.digitalWrite(self.enable_pin, 1)
 
     def disable(self):
         io_init()
-        wiringpi.digitalWrite(self.enable_pin, 1)
+        wiringpi.digitalWrite(self.enable_pin, 0)
 
     def setSpeed(self, new_speed, motorDirection):
         if new_speed > MAX_SPEED:
@@ -72,12 +68,32 @@ class motorDrive(object):
         self.motor1.setSpeed(m1_speed,m1_dir)
         self.motor2.setSpeed(m2_speed,m2_dir)
 
-if __name__ == "__main__":
-    print("verifying motor drivers work correctly.")
-    motorDriver = motorDrive()
-    motorDriver.enable()
 
-    while True:
-        time.sleep(5)
-        print("running motors...")
-        motorDriver.setSpeeds(480,0,480,0)
+if __name__ == "__main__":
+    mDrive = motorDrive()
+    io_init()
+
+    if "-h" in sys.argv or "-help" in sys.argv:
+        print("Help text for pololu dual_mc33926.")
+        print("-h, -help : for help text.")
+        print("-e, -enable : to enable both motors.")
+        print("-d, -disable : to disable both motors.")
+        print("-ss, -setspeed : to setup both motors")
+        print("\tUsage:\n\t-ss <motor1 pwm> <motor1 dir> <motor2 pwm> <motor2 dir>")
+        print("\tpwm range: 0 - 480\n\tdirections: 0 - forward, 1 - backward")
+    elif "-e" in sys.argv or "-enable" in sys.argv:
+        print("Enabling Motors...")
+        mDrive.enable()
+    elif "-d" in sys.argv or "-disable" in sys.argv:
+        print("Disabling Motors...")
+        mDrive.disable()
+    elif ("-ss" in sys.argv or "-setspeed" in sys.argv) and len(sys.argv) == 6:
+        trunArg = sys.argv[2:]
+        print("setting motor1 to pwm: {0}").format(int(trunArg[0]))
+        print("setting motor1 to direction: {0}").format(int(trunArg[1]))
+        print("setting motor2 to pwm: {0}").format(int(trunArg[2]))
+        print("setting motor2 to direction: {0}").format(int(trunArg[3]))
+        mDrive.setSpeeds( (int(trunArg[0])) , (int(trunArg[1])) , (int(trunArg[2])) , (int(trunArg[3])) )
+    else:
+        print("Invalid command arguments.")
+        print("-h, -help : for help text.")
