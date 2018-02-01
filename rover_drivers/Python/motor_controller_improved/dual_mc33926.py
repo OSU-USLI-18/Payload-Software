@@ -1,13 +1,10 @@
 import wiringpi
+import time
 from enum import Enum
 
 class Direction(Enum):
     Forward = 0
     Backward = 1
-
-class PowerState(Enum):
-    Off = 0
-    On = 1
 
 #move to a constants file.
 MAX_SPEED = 480  # 19.2 MHz / 2 / 480 = 20 kHz
@@ -42,11 +39,11 @@ class Motor(object):
 
     def enable(self):
         io_init()
-        wiringpi.digitalWrite(self.enable_pin, PowerState.On)
+        wiringpi.digitalWrite(self.enable_pin, 0)
 
     def disable(self):
         io_init()
-        wiringpi.digitalWrite(self.enable_pin, PowerState.Off)
+        wiringpi.digitalWrite(self.enable_pin, 1)
 
     def setSpeed(self, new_speed, motorDirection):
         if new_speed > MAX_SPEED:
@@ -78,7 +75,9 @@ class motorDrive(object):
 if __name__ == "__main__":
     print("verifying motor drivers work correctly.")
     motorDriver = motorDrive()
+    motorDriver.enable()
 
     while True:
+        time.sleep(5)
         print("running motors...")
-        motorDriver.setSpeeds(480,Direction.Forward,480,Direction.Forward)
+        motorDriver.setSpeeds(480,0,480,0)
