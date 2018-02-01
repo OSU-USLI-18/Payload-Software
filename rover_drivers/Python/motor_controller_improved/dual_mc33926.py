@@ -51,7 +51,7 @@ class Motor(object):
     def setSpeed(self, new_speed, motorDirection):
         if new_speed > MAX_SPEED:
             new_speed = MAX_SPEED
-        else if new_speed < 0:
+        elif new_speed < 0:
             new_speed = -new_speed
 
         wiringpi.digitalWrite(self.direction_pin, motorDirection)
