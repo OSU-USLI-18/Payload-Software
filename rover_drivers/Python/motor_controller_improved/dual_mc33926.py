@@ -81,4 +81,4 @@ if __name__ == "__main__":
 
     while True:
         print("running motors...")
-        motorDrive.setSpeeds(480,Direction.Forward,480,Direction.Forward)
+        motorDriver.setSpeeds(480,Direction.Forward,480,Direction.Forward)
