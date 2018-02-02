@@ -9,14 +9,10 @@ import time
 #https://tutorials-raspberrypi.com/raspberry-pi-ultrasonic-sensor-hc-sr04/
 #https://www.raspberrypi.org/forums/viewtopic.php?f=33&t=32294
 
-IO_INTIALIZED = False
 SONAR_CALIBRATION = 69 #actually find this calibration const.
 SONAR_TIMEOUT = 3
 
 def io_init_sonar(rd_pin,trig_pin):
-    global IO_INTIALIZED
-    if IO_INTIALIZED:
-        return
     wiringpi.wiringPiSetupGpio()
     wiringpi.pinMode(trig_pin, wiringpi.GPIO.INPUT)
     wiringpi.pinMode(rd_pin, wiringpi.GPIO.OUTPUT)
