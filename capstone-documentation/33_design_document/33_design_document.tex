@@ -2,8 +2,11 @@
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{pdfpages}
+\usepackage{booktabs}
 \usepackage{setspace}
 \usepackage{caption}
+\usepackage{multirow}
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
 \usepackage{hyperref}
 \usepackage[numbib,nottoc]{tocbibind}
 \usepackage{geometry}
@@ -82,6 +85,24 @@
 %\listoftables
 \clearpage
 
+\section{Revision History}
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{multirow}
+\begin{table}[h]
+\centering
+\caption{Revision History}
+\label{my-label}
+\begin{tabular}{@{}lllp{12cm}@{}}
+\toprule
+\textbf{Revision}    & \textbf{Date}            & \textbf{Section}  & \textbf{Description}                                                                                                                                             \\ \midrule
+1.0                  & 12/4/17                  & All               & Document creation                                                                                                                                                \\ \midrule
+\multirow{2}{*}{1.1} & 2/10/18 & 2.3, 6.1, 7.1-7.3 & \tabitem Data Logging Module has been integrated with inflight avionics unit and is no longer under the CS Team. \\
+                     &                          &                   &\tabitem Additional Payload Rover design updates: Remove SLAM from algorithm, Python use for drivers.                                                                                                                                                                 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+
 % 8. now you write!
 \section{Introduction}
 \subsection{Purpose}
@@ -106,7 +127,6 @@ In particular, the CS seniors on the OSU USLI team, otherwise known as Code Monk
 Code Monkeys in Space plan to achieve the aforementioned goals by:
 \begin{enumerate}
 \item Creating ROS modules that will allow the rover to move autonomously, avoid obstacles and path-find based on sonar sensor and IMU readings, and determine when it is at least five feet from the rocket frame in order to deploy the solar panel cells
-\item Writing Python code that will run on the BeagleBone Black data logger onboard test launch vehicles that will store sensor data recorded by multiple flight sensors including temperature, pressure, and acceleration.
 \item Writing further code that will perform numerical transformations on the data logger's raw data in order to obtain useful information like time of chute deployment, G forces experienced at various stages of flight, velocity and acceleration throughout the flight, and more
 \item Representing the transformed and polished data on the team website in a graphical, human-readable fashion
 \item Creating, updating, and maintaining a team website hosting team information and project deliverables
@@ -114,7 +134,10 @@ Code Monkeys in Space plan to achieve the aforementioned goals by:
 \item Aiding in the writing of technical documents and presentations required at various stages of the competition, in particular the parts pertaining to software
 \item Attending team meetings and NASA review sessions
 \end{enumerate}
-\bibliography{bibliography}
+% bibliography
+\nocite{*}%if nothing is referenced it will still show up in refs
+\bibliographystyle{plain}
+\bibliography{Bibliography}
 %end bibliography
 \section{Glossary}
 
@@ -134,46 +157,65 @@ John Lyndall is an advisor to the USLI team, and a member of the Oregon Rocketry
 \subsection{Dr. Nancy Squires}
 Dr. Squires is the project stakeholder and one of the main proponents of rocketry at Oregon State University. She hopes to continue to expand OSU's involvement in rocketry and the USLI competition. Even  though it is our team's first year competing, she has set high expectations for our team and wants us to win despite us being a rookie team. She hopes to build on our team's work and knowledge in future years to continue OSU's involvement in the competition and perhaps improve our performance in it.
 
+\section{Documentation Deliverables}
+\subsection{Design View}
+65\% of the scoring for this competition comes from documentation alone, which is split between several deliverables NASA requires be completed at certain deadlines throughout the length of the competition. These include:
+\begin{enumerate}
+\item The project proposal
+\item The Preliminary Design Review (PDR)
+\item The Critical Design Review (CDR)
+\item The Flight Readiness Review (FRR)
+\item The Launch Readiness Review (LRR)
+\item The Post Launch Assessment Review (PLAR)
+\end{enumerate}
+The project proposal was actually completed before Code Monkeys in Space joined the larger OSU USLI team, but for all the other deliverables, Code Monkeys in Space is expected assist in any way they can as fully-fledged members of the team. Furthermore, since the CDR, the team as a whole has decided to use \LaTeX~to format document deliverables and since the CS team members have the most experience with \LaTeX~on the team, they are expected to do the majority of formatting and styling for these documents. Besides these responsibilities, the CS team are to post all completed deliverables on the team website, contribute written content related to the various software components of the competition, and assist with editing the document for spelling/grammar errors.
+\subsection{Design Rationale}
+The rationale behind creating, formatting, editing, and posting the deliverables is self-evident: they are required by NASA for all competing teams and without completing them the team cannot continue to participate in the competition. 
+
+The rationale behind using LaTeX to format the documents instead of something like Microsoft Word is that LaTeX allows one to make a document look far more professional and it provides its users with significantly more control over document aspects like typesetting, vertical spacing, table creation, and the presentation of mathematical symbols. Moreover, LaTeX when used with Overleaf allows for multiple team members to edit or add content to the same project in parallel, improving the efficiency of document drafting, especially for very large documents.
+
+The rationale behind investing so much time and effort into formatting and editing these documents by Code Monkeys in Space in particular is because of the competition's scoring. The payload as a whole is worth only 10\% of the final score and the software for the payload is only a portion of that 10\%. The website as a whole is also only worth 10\% of the final score. The documentation, when put together, amounts to 65\% of the final score for the competition, making it an obvious priority for both Code Monkeys in Space and the OSU USLI team as a whole.
+
 \section{Rover}
 \begin{figure}[h]
 	\begin{center}
-		\caption{State diagram for the rover's second movement algorithm. }
+		\caption{State diagram for the rover's second movement algorithm. The overall diagram is split into four distinct subroutines. The first, the orientation subroutine, is run as soon as the rover is ejected from its housing. It involves listening for the rocket's signal on its twin microphones and then turning until the phase shift of the signals corresponds to facing away from the rocket. The second, the slope subroutine, occurs the rover determines via its IMU that the angle of descent is too steep. It then backs up and turns away from the hole. The third, the stall subroutine, occurs when the motors stall. Here, the rover alternates between full power left and right turns in an attempt to wiggle out of the trap. Finally, the detection subroutine occurs when the sonar sensors indicate that there is an obstacle ahead. The rover will then turn until there is no obstacle in front and continue to move forward.}
 		\includegraphics[width=\textwidth]{RoverStateDiagram}
 	\end{center}
 \end{figure}
 \subsection{Design View}
 The software of the rover on the bottom level will be run on the Raspbian operating system (a Debian derivative), which will serve as a resource interfacing the rover software and ROS with the Raspberry Pi's hardware components. ROS (Robotics Operating System) will be used as the link between high level algorithmic computation and I/O components, such as sonar sensors, microphones, GPS, and the IMU. ROS modules responsible for movement and path finding will subscribe to streams for these various sensors. Other ROS modules will be responsible for publishing sensor data as it arrives based on hardware interrupts to these streams. In the event of race conditions, data coming from more "vital" sensors, such as the motor driver or the IMU will take priority. 
 
-Overall, the rover software will utilize three movement algorithms of varying complexity, The hardware needed by the less complex algorithms will be a strict subset of the hardware needed by their more complex counterparts, meaning that the rover can still function to some degree even if most of its sensors fail at a hardware level. Such redundancy is crucial when considering a rover than must function autonomously after experience extreme G forces during flight. 
+Due to the type of sensors chosen by the engineering teams, it was discovered that SLAM is not possible with sonar sensors. SLAM with ROS requires multi-point sensor data in an array, and sonar sensors provide only single point sensor data. If the engineering decisions had settled on LIDAR for the object avoidance SLAM would be possible. However with the use of sonar SLAM is not possible with the current rover design. 
 
-The three movement algorithms are as follows:
+Overall, the rover software will utilize two movement algorithms of varying complexity, The hardware needed by the less complex algorithms will be a strict subset of the hardware needed by their more complex counterparts, meaning that the rover can still function to some degree even if most of its sensors fail at a hardware level. Such redundancy is crucial when considering a rover than must function autonomously after experience extreme G forces during flight. 
+
+The two movement algorithms are as follows:
 \begin{enumerate}
-\item SLAM: The rover will utilize a combination of GPS, its magnetometer, and its position relative to rocket frame parts (calculated by determining the phase shift because the same signals as recorded by the rover's two separate microphones) to triangulate its position. It will then utilize its front-facing sonar sensors combined with incremental scanning (via turning) to perform mapping of its surrounding area. Combined, this information will be used to determine an obstacle-free path for the rover away from the rocket frame that it will follow until it is at least five feet away. 
 \item Obstacle avoidance: The rover will determine the location of any nearby rocket frame parts by listening for their signal on its dual microphones and then face away from them. From there, the rover will move forward, avoiding obstacles detected by its sonar sensors by turning away from them. For steep declines, which front-facing sonar sensors will not detect, the IMU will alert the rover of said decline and the rover will back up, turn away from the decline, and continue moving. At regular intervals, the rover will check it absolute direction against its initial one using its magnetometer in order to ensure that turning done during obstacle avoidance has not resulted in the rover now facing the landing site which it intends to leave.
 \item Basic movement: As before, the rover will face away from the rocket if the microphones are functioning. From there, it will simply move forward continuously, only changing directions if it gets stuck, at which point it will alternate turning left and right at full power in an attempt to wiggle itself out of whatever trapped it. This strategy, corresponding to the stall subroutine in Figure 1, is also employed by the other two algorithms in the event of motor stall, but the ultimate goal of the more complex algorithms is to avoid getting stuck in the first place.
 \end{enumerate}
-Figure 1 shows a state diagram of the second movement algorithm listed above. The overall diagram is split into four distinct subroutines. The first, the orientation subroutine, is run as soon as the rover is ejected from its housing. It involves listening for the rocket's signal on its twin microphones and then turning until the phase shift of the signals corresponds to facing away from the rocket. The second, the slope subroutine, occurs the rover determines via its IMU that the angle of descent is too steep. It then backs up and turns away from the hole. The third, the stall subroutine, occurs when the motors stall. Here, the rover alternates between full power left and right turns in an attempt to wiggle out of the trap. Finally, the detection subroutine occurs when the sonar sensors indicate that there is an obstacle ahead. The rover will then turn until there is no obstacle in front and continue to move forward.
-\subsection{Component design}
+\subsection{Component Design}
 \subsubsection{Sonar Sensors}
 The sonar sensor data for the rover will need to be formatted in such a way that is understood by ROS's gmapping libraries. The digital formatting of this module will follow the ROS navigation stack \code{sensor\_msgs/Range.msg}. This definition will be configured to the infrared radiation type to conform with \href{http://wiki.ros.org/Robots/evarobot/Tutorials/indigo/Sonar}{examples} provided by the ROS sonar tutorials. Additionally this definition will contain max and min ranges of the module as well as the fixed range of the calculated output.
 \subsubsection{Inertial Measurement Unit}
 The IMU will utilize ROS's navigation stack as a standard for analog output to digital data types. Specifically, we will use the \code{sensor\_msgs/Imu.msg} message definition. This message contains a header for orientation, angular velocity, and linear acceleration for the X, Y, and Z axes.
-\subsubsection{Motor driver}
-The controls for the motor itself will be abstracted away from ROS and implemented in a separate class outside of the framework. For the driver itself we will use \href{https://github.com/pololu/dual-mc33926-motor-driver-rpi}{Pololu's library} for the Pololu Dual MC33926 Motor Driver, which is currently implemented in Python. If needed, we will convert this driver into a C++ implementation using the C++ version of the \href{http://wiringpi.com/}{Wiring Pi Library}.
+\subsubsection{Motor Driver}
+The controls for the motor itself will be abstracted away from ROS and implemented in a separate class outside of the framework. For the driver itself we will use \href{https://github.com/pololu/dual-mc33926-motor-driver-rpi}{Pololu's library} for the Pololu Dual MC33926 Motor Driver, which is currently implemented in Python. Due to driver compatibility, available documentation, and speed of implementation the Python version of the \href{http://wiringpi.com/}{Wiring Pi Library} was selected to implement the motor driver.
 
 \subsection{Design Rationale}
 \begin{minipage}{\linewidth}
-	\captionof{figure}{Model of rover's movement in a hypothetical landing zone using the SLAM movement algorithm.}
+	\captionof{figure}{Model of rover's movement in a hypothetical landing zone using collision/object avoidance.}
 	\begin{center}
 		\includegraphics[width=\textwidth]{ManuverDiagram}
 	\end{center}
 \end{minipage}
-Figure 2 helps illustrate why a sophisticated movement algorithm like SLAM would be useful for this competition. By allowing the rover to be aware of its position relative to its surroundings, it can prevent getting stuck on insurmountable obstacles and accomplish the goal of being at least five feet from the rocket with minimal driving. 
+Figure 2 helps illustrate why object avoidance is necessary for navigating the landing site. By allowing the rover to be aware of its position relative to its surroundings, it can prevent getting stuck on insurmountable obstacles and accomplish the goal of being at least five feet from the rocket with minimal driving. 
 
 \section{Avionics}
 \subsection{Design View}
 The Data Logging Module involves the displaying and recording of avionics information for the rocket after sensors have recorded various streams of data during test flights.
-The rocket will be equipped with, at a minimum, an altimeter for elevation measurements, a 9 degrees of freedom IMU, a barometer, and a GPS sensor. Information gathered by these sensors will be stored on a data logger called the Data Logging Module (DLM) during all test flights, and information from this data logger must be extracted and displayed in a human-readable fashion. This is separated into the following components: the in-flight data recorder operating system, the in flight data recorder software libraries, and the Graphical User Interface (GUI) to display the collected and formatted data. The in-flight recorder will interface with and record data from sensors using a BeagleBone Black microcontroller. The ground station refers to software and hardware employed to perform any post-flight data processing, and presentation that will be done on the collected data.
+The rocket will be equipped with, at a minimum, an altimeter for elevation measurements, a 9 degrees of freedom IMU, a barometer, and a GPS sensor. Information gathered by these sensors will be stored on a data logger called the Data Logging Module (DLM) during all test flights, and information from this data logger must be extracted and displayed in a human-readable fashion. This is separated into the following components: the in-flight data recorder operating system, the in flight data recorder software libraries, and the Graphical User Interface (GUI) to display the collected and formatted data. Due to power and weight constraints in the launch vehicle: the DLM will now be integrated with the in-flight avionics known as the Avionics Telemetry Unit (ATU). Implementation of the DLM has been taken over by Electrical and Computer Engineers on the Aero/Recovery sub team. This decision is due to the EE and ECE's experience in embedded programming, and familiarity with the existing avionics design. The Beaglebone Black micro controller was removed from the design by engineers on the team as it required to much power draw, and was too heavy. It has been replaced with a Teensy 3.6 Development board which has a lower power draw, and is significantly smaller. In addittion the current ATU uses a Teensy controller and the Aero/Recovery team settled on a Teensy 3.6 for increased compatibility with the ATU. The ground station refers to software and hardware employed to perform any post-flight data processing, and presentation that will be done on the collected data.
 The DLM Ground station software must be capable of parsing and displaying the recorded in-flight data in a user-friendly and useful way. The software could be a local or remote application either viewable on the launch site or available online. Ideally, users will be able to view and explore data recorded on the launch vehicle during the flight. These statistics and figures will give the user information about how the rocket performed and raw data collected from the rocket itself. Altitude, barometric pressure, trajectory, and other pertinent information will be available for viewing by NASA adjudicators, interested students, and community members interested in rocketry. Charts and graphs will be used where applicable, data analysis will be presented with trajectory information, and raw data will be presented for sensors not requiring any analysis or sophisticated processing.
 \begin{figure}[h]
 	\begin{center}
@@ -190,24 +232,16 @@ The DLM Ground station software must be capable of parsing and displaying the re
 \end{figure}
 Users on the screen featured in Figure 4 will be able to expand certain menu items, like the hamburger style menu for displaying trajectory, GPS, and other data. Users will also be able to click on tabs displaying raw sensor data, with a brief description of what the sensor records in the bottom left corner. In the bottom right corner users will be able to open a modal to share a link to the page, or download/export the data as a \code{.csv} or \code{.pdf} file.
 
-\subsection{Component design}
-\subsubsection{Inertial Measurement Unit}
-The IMU will use the \href{https://github.com/adafruit/Adafruit_9DOF}{AdaFruit 9 Degrees-Of-Freedom library} which will do all computations for its internal gyroscope, accelerometer, and magnetometer. This driver will send data directly and will be manipulated by the Beaglebone Black, thus recording all in-flight data.
-\subsubsection{Altitude sensor}
-Our current sensor for altitude (SparkFun Altitude/Pressure Sensor) is unsupported by the Adafruit libraries, so we will utilize Adafruit's \href{https://github.com/adafruit/Adafruit_Sensor}{Unified Sensor Driver}. This driver template allows us to choose a sensor type and other custom configurables for unsupported sensors and make them compatible with Adafruit I2C, USART, and other communication protocols. 
-\subsubsection{Pressure sensor}
-Similar to the altitude sensor, the SparkFun Pressure Sensor will also utilize Adafruit's \href{https://github.com/adafruit/Adafruit_Sensor}{Unified Sensor Driver}. The difference between the configurations will be the sensor types and sensor specific constants.
-\subsubsection{Accelerometer}
-The accelerometer (Adafruit ADXL377) utilizes mainly analog outputs which will need to be manually configured, calibrated, and translated to a digital output. This calibration process can be done similarly to AdaFruit's \href{https://learn.adafruit.com/adafruit-analog-accelerometer-breakouts/programming}{calibration sketch}. Then, the accelerometer data can be configured to the \href{https://github.com/adafruit/Adafruit_Sensor}{Unified Sensor Driver} to be interfaced with the AdaFruit libraries.
-\subsubsection{Beaglebone Black}
-The Beaglebone Black will gather information from the aforementioned sensors during the rocket flight and conduct translations to appropriate communication protocols which will then be stored in a storage device for later data processing. The logging and management of data will be done with the \href{https://github.com/adafruit/adafruit-beaglebone-io-python}{AdaFruit Beaglebone IO Python library}, which maps individual pins of the microcontroller and abstracts away some computational translations between communication protocols.
+\subsection{Component Design}
+\subsubsection{Teensy 3.6 Development board}
+The Teensy 3.6 will gather information from the aforementioned sensors during the rocket flight and conduct translations to appropriate communication protocols which will then be stored in a storage device for later data processing. Arduino libaries that are compatible with the Teensy will be used for communication with the sensors. Sensors include: an Inertial Measurement Unit, Altitude sensor, Pressure sensor, and Adafruit ADXL377 Accelerometer.
 
-\subsection{Design Rational}
-The most important aspects of an operating system for the DLM is reliability and compatibility with the BeagleBone Black. The operating system must be capable of communicating with the BeagleBone Black's GPIO and serial communication ports. A software library for the DLM must be able to make serial communication with the onboard sensors easier, while being compatible with the operating system, and the BeagleBone Black. The DLM ground station software must be capable of parsing and displaying the recorded in-flight data in a user-friendly and useful way. The data will be stored in text files, which is readable by most any language, so the GUI for the ground station is more important than the data processing itself.
+\subsection{Design Rationale}
+While the DLM has been integrated with the ATU and will be implemented by the Aero/Recovery team, the ground station and any post flight processing is still the responsibility of the CS Team. The DLM ground station software must be capable of parsing and displaying the recorded in-flight data in a user-friendly and useful way. The data will be stored in text files, which is readable by most any language, so the GUI for the ground station is more important than the data processing itself.
 \section{Website}
 \subsection{Design View}
 Aside from the launch vehicle and payload itself, the website serves as the main medium of giving deliverables to NASA and an excellent resource for potential USLI members to join and gain information.
-\subsubsection{hosting competition documents}
+\subsubsection{Hosting Competition Documents}
 All NASA specific documents will be contained in its own section of the USLI website clearly labeled as 'deliverables' containing cards to available documents. Each card will provide a link to its designated \code{.pdf} or \code{.pptx} and labeled similarly. For example each document shall be labeled in the  following order:\\\code{Oregon\_State\_University-2018-DocumentName.pdf}
 \begin{figure}[h]
 	\begin{center}
@@ -219,7 +253,7 @@ All NASA specific documents will be contained in its own section of the USLI web
 \subsubsection{Aesthetics}
 For a clean and well designed template, the website will utilize Bootstrap's free template \href{https://startbootstrap.com/template-overviews/agency/}{agency}. This template was also chosen because of its simple styling/code as well as its vulnerability to change and customization at most web development skill levels.
 
-\subsubsection{Team and competition specific information}
+\subsubsection{Team and Competition-Specific Information}
 In addition to the specified 'What is it?' page, it was requested by the team leaders that a team page be provided (containing photos and emails) as well as a dynamically stretchable side bar containing links to team specific sources of information such as Trello, Google Drive, and GitHub.
 \subsection{Design Rationale}
 The website serves as the main medium of giving deliverables to NASA and an excellent resource for potential USLI members to join and gain information. The website itself must be simple and easy to navigate while also staying aesthetically pleasing. The website must provide the following pieces of information: competition overview, team emails photos and positions, as well as documentation and NASA deliverables.
@@ -232,6 +266,3 @@ The website serves as the main medium of giving deliverables to NASA and an exce
 %end bibliography
 
 \end{document}
-
-
-
