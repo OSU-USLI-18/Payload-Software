@@ -1,0 +1,482 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc]{IEEEtran}
+\usepackage{url}
+\usepackage{setspace}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage[justification=centering]{caption}
+\usepackage{pythonhighlight}
+
+\newenvironment{myitemize}
+{ \begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}     }
+{ \end{itemize}                  }
+\geometry{textheight=9.5in, textwidth=7in}
+\def\code#1{\texttt{#1}}
+% 1. Fill in these details
+\def \CapstoneTeamName{Code Monkeys in Space}
+\def \CapstoneTeamNumber{		33}
+\def \GroupMemberOne{			Mark Bereza}
+\def \GroupMemberTwo{			Joseph Struth}
+\def \GroupMemberThree{			Kevin Turkington}
+\def \CapstoneProjectName{		NASA University Student Launch Initiative}
+\def \CapstoneSponsorCompany{	Mechanical Engineering, Oregon State University NASA}
+\def \CapstoneSponsorPerson{		Dr. Nancy Squires}
+
+% 2. Uncomment the appropriate line below so that the document type works
+\def \DocType{	%	Technology Review and Implementation Plan
+				%Requirements Document
+				%Technology Review
+				%Design Document
+				Progress Report
+				}
+			
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+% 3. If the document is not to be signed, uncomment the RENEWcommand below
+\renewcommand{\NameSigPair}[1]{#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+    	%%\includegraphics[height=4cm]{coe_v_spot1}
+        \hfill 
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}   
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge CS Capstone \DocType \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge\CapstoneProjectName}\par
+            \vfill
+            {\large Prepared for}\par
+            \Huge \CapstoneSponsorCompany\par
+            \vspace{5pt}
+            {\Large\NameSigPair{\CapstoneSponsorPerson}\par}
+            {\large Prepared by }\par
+            Group\CapstoneTeamNumber\par
+            % 5. comment out the line below this one if you do not wish to name your team
+            \CapstoneTeamName\par 
+            \vspace{5pt}
+            {\Large
+                \NameSigPair{\GroupMemberOne}\par
+                \NameSigPair{\GroupMemberTwo}\par
+                \NameSigPair{\GroupMemberThree}\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        % 6. Fill in your abstract    
+        	This document serves as a retrospective of all work done to the website, avionics DLM, and rover over the winter term.
+        \end{abstract}     
+    \end{singlespace}
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+% 7. uncomment this (if applicable). Consider adding a page break.
+%\listoffigures
+%\listoftables
+\clearpage
+
+% 8. now you write!
+\section{Purposes and Goals}
+Overall, the goals of this competition are the following:
+\begin{enumerate}
+\item Construct and launch a rocket carrying a payload at least a mile (5,280 feet) above ground.
+\item Have the rocket deploy a parachute and safely land within 2,500 feet of the launch point.
+\item After landing and after a button press, deploy a rover.
+\item Have the rover drive autonomously at least 5 feet away from the rocket landing site.
+\item Have the rover deploy solar cells after being at least 5 feet from the landing site.
+\item The solar cells will increase in surface area after deployment (unfold).
+\item Create formal technical reports regarding rocket/payload design and present them to a NASA review panel
+during several formal design review meetings.
+\item Participate in educational outreach sessions and get at least 200 students involved in STEM subjects.
+\item Maintain a website detailing project information and hosting all competition deliverables.
+The subset of these overall goals that pertain to the CS capstone students involves the research, design, implementation.
+\end{enumerate}
+In particular, the CS seniors on the OSU USLI team, otherwise known as Code Monkeys in Space, are responsible for goal 9, their shares of goals 7 and 8, and the software needed to facilitate goals 4 and 5. Furthermore, Code Monkeys in Space are responsible for the design and implementation of software that will run on a data logging module inside every test launch vehicle for the purposes of data collection, which indirectly assist with goals 1 and 2. Thus, the scope of this project for Code Monkeys in Space is limited to these facets of the competition. The others will be handled by the mechanical and electrical engineering seniors on the team. If every subteam successfully completes their responsbilities in a timely, complete, and safe manner, the team as a whole will accomplish the overall goal of scoring well in this competition.
+\section{Progress Thus Far}
+\subsection{General}
+Critical Design Review score sheets are in; OSU USLI team finished in the top 2\% in the competition which equates to 1st out of 50 teams! This result is very good for a first year rookie team. CS Team members contributed to the 250 page document by formatting and adding sections written by other capstone team members in laTex.
+
+\subsection{Critical Design Review}
+The Critical Design Review document was due on-line to the team website on January 11th. Over the last week of winter break, and the first week of winter term the CS team worked tirelessly to compile and format the 250 page document. Stitching together the entire teams excel document sections and converting them to Latex. Also the team put time into editing sections of other team members grammar, spelling, and equations. The team formatted figures and tables, as well as inputting long tables at the end of the CDR.
+
+\subsection{Educational Outreach}
+The team as a whole conducted several educational outreach events, with Code Monkeys in Space participating in one event so far over winter break. The team as a whole has already exceeded the education outreach minimum requirement of 200. Currently the USLI team has reached 422 students total!
+\begin{itemize}
+\item Philomath Middle School (K6-7) - A science classroom of over 30 sixth- and seventh-graders was given a presentation about rocketry and STEM at OSU. Additionally, the team conducted a Q\&A session and decorated and launched model rockets!
+\item Sprague High School
+\item Silver Crest Middle School
+\item Walker Middle School
+\end{itemize}
+\subsection{Rover}
+The team has implemented a basic forward movement, and obstacle avoidance algorithm using python and ROS. Additionally the team implemented a simulation of both algorithms using ROS's \texttt{Rvis} simulation module see figure \ref{figure:ROS Object Avoidance Simulation} for examples of both. To get ROS working on the raspberry Pi the team installed it from source as it was not compatible. In addition the \texttt{WiringPi} library had to be installed from source on the raspberryPi to allow serial communication with the motor driver and sonar sensors. The team made excellent progress implementing and testing a python driver for the motor controller on two versions of the rover testbed. Also sonar driver code has been started, and a functioning version has been written using an Ardunio for testing. Driver code has been written for the Analog-to-Digital converter to interact with the directional microphones, and is being tested. The team has also created tools and materials to aid in development, including scripts to automate connecting to the raspberry Pi. As well as configuring a raspberry Pi as a development environment and testing environment.   
+
+\subsection{Avionics}
+As reflected in revisions to the requirements and design documents the CS team is no longer implementing the Data Logging Module. Instead it has been integrated with the existing Avionics Telemetry Unit (ATU) and will be implemented by the Aero/Recovery sub team comprised of Electrical Engineers. To assist in this the CS team conducted research, and located Arduino drivers for each of the sensors. This information was made available to the Aero/Recovery sub team through the team Github repository.  
+
+\subsection{Website}
+In accordance with the NASA requirements the team website must meet EIT accessibility standards which comply with Web Content Accessibility Guidelines (WCAG) 2.0. The CS Team implemented WCAG 2.0 accessibility for the team website by adding alt text for images, ensuring that the site is keyboard navigate-able, and that color contrast and text sizes meet standards. The team also adding embedding of the team Instagram, and fetching of Instagram images in the scrolling banner see figure \ref{figure:Social Media Section}. CSS styling updates have been made to the website over the duration of the term as needed and requested by team members. In addition the following pages were added to the website:
+\begin{itemize}
+\item A Mission Profile section, giving an overview of the USLI competition see figure \ref{figure:Mission Profile}.
+\item A project time line section to inform visitors of what the team is doing leading up to the competition day on April 4th see figure \ref{figure:Project Timeline}.
+\item A sponsors page to display images, logos, and links of companies who have donated parts to the team see figure \ref{figure:Sponsor Page}.
+\item An "About Us" section was added showing team contact information, team structure, and head shots see figure \ref{figure:About Us Section}.
+\item Added side navigation bar with links to the team Slack, Google Drive, and Trello see figure \ref{figure:Team website home page}.
+\item Added Deliverables section with embedded Google Drive Iframe to team meeting notes see figure \ref{NASA Deliverables section}.
+\item Posting PDR, CDR, and fly sheet documents on the website available for download by NASA.
+\end{itemize}
+
+\section{Work Left to do}
+\subsection{Rover}
+The remaining work on the rover will consist of implementing the sonar drivers, testing the ROS object avoidance algorithm on the test. Additionally when the final rover build is completed by the engineers the team will integrate the IMU and solar panel actuator. This will be done in collaboration with the Electrical Engineers and PCB designer Brad Anderson.
+\subsection{Avionics}
+The Data Logging Module, as reflected in our updated documentation has been integrated with the Avionics Telemetry Unit or ATU. The work left to do for the CS team is to assist Kyle O'Brien as needed to finish the Data Logger. This time line has been moved up as our full-scale launch was recently (As of 2/15/18) postponed to March 3rd. Which means we have a shorter time line to finish this in. Additionally the team will work on completing the post processing and graphical user interface to display the collected data.  
+
+\subsection{Website}
+The website is complete in terms of NASA and team requirements, however the team will continue to make style and feature improvements as requested by team leaders and other team members. The team will also continue to post NASA document deliverables like the Flight Readiness Review, and Post Launch Assessment Review before the deadlines. This involves hosting and making a PDF version of the documents availible on the deliverables page of the website. The deliverables page can be seen in figure \ref{NASA Deliverables section}.
+
+
+\section{Stumbling Blocks and Solutions}
+\subsection{General}
+\begin{itemize}
+\item Problem: Team members submitting and editing content for the CDR at the last minute, not allowing enough time for formatting 
+\begin{itemize}
+\item Solution: For the next milestone document the Flight Readiness Review, the team has defined a better process and will try to enforce a hard deadline to have content ready 1 week before the document due date.
+\end{itemize}
+\item Problem: CS Team attending engineering specific meetings taking up much needed development time during the week.
+\begin{itemize}
+\item Solution: Communicated with team leads, and agreed to communicate via slack if attendance or input is needed at a meeting. This allowed the CS team to meet 3 times a week to continue development.
+\end{itemize}
+\end{itemize}
+\subsection{Rover}
+
+\begin{itemize}
+\item Problem: Knowledge gap for electrical engineering as applied to sensors and embedded programming.
+\begin{itemize}
+\item Solution: Collaborate closely with the electrical engineers on the rover sub team to assist with sensors and drivers.
+\end{itemize}
+\item Problem: Motor Driver power supply broken, or lacking enough wattage and impeding development progress.
+\begin{itemize}
+\item Solution: Meet with electrical engineers and found a working power supply to continue testing the motor driver.
+\end{itemize}
+\item Problem: Test bed disassembled by mechanical engineers, when needed for testing by EE and CS team.
+\begin{itemize}
+\item Solution: Work together with ME and EE sub teams to reassemble test bed and prepare it for motor driver and sonar testing.
+\end{itemize}
+\end{itemize}
+\subsection{Avionics}
+\begin{itemize}
+\item Problem: Lack of access to Data Logging Module hardware.
+\begin{itemize}
+\item Solution: Researched drivers and provided code to Aero/Recovery sub team. Engineers changed the DLM and integrated it with the in flight avionics telemetry unit. The CS Team will assist as needed, if requested by the Aero/Recovery sub team.
+\end{itemize}
+\end{itemize}
+\subsection{Website}
+\begin{itemize}
+\item Problem: Vague improvement and change requests from team lead. 
+\begin{itemize}
+\item Solution: Sat down for a one on one, to discuss changes and ask specifically what the team lead wanted.
+\end{itemize}
+\item Problem: Team members not submitting head shots to the "About Us" section of the website.
+\begin{itemize}
+\item Solution: Contact team leads to put pressure on members and communicate the issue.
+\end{itemize}
+\end{itemize}
+\section{Weekly Worklog}
+\begin{singlespacing}
+\begin{tabular} {l p{0.45\linewidth} p{0.45\linewidth}} \textbf{Week} & \textbf{Work Done} & \textbf{Problems Encountered}\\\hline
+1 &
+\vspace{-\baselineskip}\begin{myitemize}
+\item Compiled team members word document sections for CDR.
+\item Formatted figures and tables for CDR.
+\item Formatted and edited team members sections into CDR.
+\item Practiced for CDR design presentation. 
+\vspace{-\baselineskip}\end{myitemize} & 
+\vspace{-\baselineskip}\begin{myitemize}
+\item Team members updating and editing sections at the last minute.
+\vspace{-\baselineskip}\end{myitemize} \\\hline
+2 &
+\vspace{-\baselineskip}\begin{myitemize}
+\item Participated in CDR Q\&A with NASA.
+\item Prepared presentation for CDR presentation.
+\item Presented CDR to NASA.
+\item Filled out Media Release Forms for NASA.
+\vspace{-\baselineskip}\end{myitemize} & 
+\vspace{-\baselineskip}\begin{myitemize}
+\item Scripts failed after installing Raspbian.
+\item Problems with motor driver power supply.
+\vspace{-\baselineskip}\end{myitemize} \\\hline
+3 &
+\vspace{-\baselineskip}\begin{myitemize}
+\item Assembled test bed with EE/ME.
+\item Purchased MicroSD card for RaspberryPi.
+\item Installed Raspbian on RaspberryPi.
+\item Installed ROS and WiringPi from source.
+\vspace{-\baselineskip}\end{myitemize} & 
+\vspace{-\baselineskip}\begin{myitemize}
+\item Kevin was sick/out-of-office this week.
+\vspace{-\baselineskip}\end{myitemize} \\\hline
+4 & 
+\vspace{-\baselineskip}\begin{myitemize}
+\item Created command line interface for the motor controller to assist in the development of the motor driver.
+\item Created checklist in Google Keep.
+\item Fixed issues with WiringPi.
+\item Confirmed and tested that motor driver worked successfully.
+\vspace{-\baselineskip}\end{myitemize} & 
+\vspace{-\baselineskip}\begin{myitemize}
+\item Power supply broken in Graf for motor controller.
+\item Second power supply failed to supply enough wattage.
+\vspace{-\baselineskip}\end{myitemize} \\\hline
+5 &
+\vspace{-\baselineskip}\begin{myitemize}
+\item Debugged ADC arduino driver code.
+\item Verified that motor controller worked in all power range of battery.
+\item Created Latex template and gave presentation to team.
+\item Updated documentation to reflect changes.
+\item Verified arduino sonar drier code worked.
+\vspace{-\baselineskip}\end{myitemize} & 
+\vspace{-\baselineskip}\begin{myitemize}
+\item Data Logger Module hardware still not available, hardware changes made by engineering team.
+\vspace{-\baselineskip}\end{myitemize} \\\hline
+6 &
+\vspace{-\baselineskip}\begin{myitemize}
+\item Worked on progress report and updating documentation.
+\item Tested ADC, helped EE's create testing videos.
+\item Created testing videos for presentation
+\vspace{-\baselineskip}\end{myitemize} & 
+\vspace{-\baselineskip}\begin{myitemize}
+\item New rover prototype wheel component issues.
+\vspace{-\baselineskip}\end{myitemize} \\\hline
+
+\end{tabular}
+\end{singlespacing}
+\newpage
+
+\section{Retrospective}
+\begin{singlespacing}
+\begin{tabular} {p{0.3\linewidth} p{0.3\linewidth} p{0.3\linewidth}} \textbf{Positives} & \textbf{Deltas} & \textbf{Actions}\\\hline
+\vspace{-\baselineskip}\begin{myitemize}
+\item Motor drivers work successfully.
+\item Motor drivers work with motor controller.
+\item ADC works with arduino code.
+\item Outside help with website from open source community.
+\item Website is WCAG 2.0 Accessible.
+\item CDR completed and received top score for the competition.
+\item CDR submitted on time, presentation went smoothly.
+\vspace{-\baselineskip}\end{myitemize} & 
+\vspace{-\baselineskip}\begin{myitemize}
+\item Progress on ADC impedes development of sonar.
+\item Find and resolve unknown https issue with website.
+\item Team members submitting and resubmitting written sections of CDR late.
+\item SSH difficulties with raspberry Pi.
+\item Overheating issue with raspberry Pi.
+\vspace{-\baselineskip}\end{myitemize} & 
+\vspace{-\baselineskip}\begin{myitemize}
+\item Working ADC with arduino code/driver
+\item Try and reproduce using multiple browsers. Seek additional help if needed from a web-development manager at CASS.
+\item Enforce hard deadlines and work with team leads to help members get content in on time for the Flight Readiness Review.
+\item Wrote script to assist in SSH on Linux.
+\item Ensure that Raspberry Pi has ant-static bag and is not in contact with metal.
+\vspace{-\baselineskip}\end{myitemize}
+\end{tabular}
+\end{singlespacing}
+
+\section{Joseph Progress Retrospective}
+I have been quite satisfied with the contributions of my team members. We have been tasked with a unique project with a particularly accelerated time line. Senior Design is a three term course, but the NASA USLI competition is at the beginning of Spring Term on April 4th - 9th. This means that our team has 1/3rd less time to complete our project. However I also think that our team has put in the effort required and gone above and beyond to meet this deadline. I have no doubt that we will be ready for the competition in April. Additionally working with the other capstone teams of Electrical, and Mechanical Engineers has been overall a learning experience, but a successful collaborative effort as well. This term especially we have worked closely with the electrical engineers to test and develop the Motor Driver, Sonar Drivers, and ADC on the rover test bed. \\
+\\
+\textit{Please note:} that I wrote sections 2-6 in this document and should be considered for my portion of the progress report 
+\subsection{Website}
+Included in the Appendix Section A.2 are screen shots of the pages and features of our team website. We have met all the requirements for the website. In a NASA Q\&A during week 6 I specifically asked the adjudicators to clarify the scoring section of the website but they were engineers and told me that the website is graded by NASA's media team. They informed me that a separate score sheet is used to score the website, but they were unable to provide that to me or the team. I found this surprising as the engineers have been able to obtain specific score sheets when they have asked the adjudicators. Aside from that the team will add features and post document deliverables as they come up.
+
+\subsection{Latex Documents}
+NASA documents make up 65\% of the competition scoring and in the first two weeks of the term took about 30 hours of work in formatting, editing, and compiling all 18 team members word document sections into a 230 page Latex formatted document. We scored excellent for the Critical Design Review, and in the upcoming weeks will work again to format the Flight Readiness Review. This document is due on March 5th and since the full scale launch has be postponed we have less than a week to format this document. This will be a real challenge and time crunch for a 200+ page document. This will make up a large amount of our work for the remainder of the term.
+\subsection{Data Logging Module}
+For the Data Logger I will assist Kyle O'Brien in his work on the Avionics as needed. The team still needs to implement the graphical user interface and data post processing. This will be done at the end of March or over spring break as the rover, and NASA deliverable documents will take priority in the coming weeks.
+\subsection{Rover}
+The Rover testbeds are complete and we have been working on those most weekends in collaboration with the electrical engineers on our team. So far we have implemented the motor driver (see Appendix section B1), and a basic sonar driver using an arduino board. We have also assisted them in testing the motor driver, and the analog-to-digital converter. The rover will not be on the full scale launch, however we will have to complete the testing and implementation of the rover by the end of March. Work we have left to do is finish the sonar driver with the electrical engineers. Finish the ADC and directional microphones, and test the algorithm simulations on the testbed.
+
+\section{Mark Bereza Progress Retrospective}
+\subsection{Description of Current Status}
+My contributions to the USLI competition have included a variety tasks, including:
+\begin{itemize}
+\item creating and giving presentations on software-related topics to the whole team
+\item planning and leading the software subteam meetings with underclassmen during fall term
+\item participating in an educational outreach event on campus
+\item helping in the design of the rover movement algorithm
+\item minor contributions to the team website
+\item setting up ROS and Raspbian on a Raspberry Pi and connecting it to the osuusli.com domain
+\item creation of the design matricies for the rover technologies to assist in design decisions
+\item implementation of driver code for the rover's sonar sensor in Python
+\item writing the software sections of the PDR
+\item editing and formatting of the \LaTeX~document for the CDR
+\item contributions to every piece of documentation for CS461 and CS462
+\item editing of the fall progress presentation and winter midterm progress presentation videos
+\end{itemize}
+\subsubsection{USLI Team Activities}
+Much of the work done by both myself and Kevin and Joseph for this project don't directly contribute to the CS team's primary goals for this project but instead either indirectly assist in achieving the competition requirements or are part of the general responbisilities of all USLI team members, software or otherwise. 
+
+The first of these are the presentations I was asked to create and present to the team during our weekly team meetings covering the topics of Git/GitHub and \LaTeX. The rationale behind commiting time to such endeavours is a result of the need for the team as a whole to use these tools despite the fact that most of the electrical and mechanical engineering students on the team have little to no experience with said tools. As a result, I was asked by team lead Evan Gonnerman to draft up PowerPoint presentations covering the basics of Git/GitHub and \LaTeX~and answer any questions that may come up during my presentation of said PowerPoint. The Git/GitHub presentation covered what Git and GitHub are, the advantages of using them in a project, a brief tutorial on using these tools, and an overview of proper Git workflow. Since the GitHub organization created for the team had repositories set up for documentation and software produced by team members other than Group 33, it was important to make sure that these team members were using Git properly to take full advantage of the tool. The \LaTeX~presentation, on the hand, was mainly a brief overview of common \LaTeX~syntax for common tasks such as table, figure, and list creation, equation formatting, and proper use of refrences. This was presented in order to allow team members wishing to contribute written content to \LaTeX~documents such as the CDR and FRR direction in how to make their content appear the way they want it to in the final document.
+
+Another category of work that would fall under general USLI team activities would be the planning and leading of CS subteam meetings during fall term. The time frame of fall term is specified because these CS-specific weekly meeting meant primarly for onboarding underclassmen interested in contributing to the project have been discontinued since the start of winter term due to the majority of the CS underclassmen (unfortunately) dropping out of the project. These meetings featured brief presentations regarding the status of the project at the time, tasks that were available for underclassmen to assist with, and usually ended with a Q\&A session. In fact, it was during one of these meetings that the first version of the state diagram for the rover movement algorithm was created.
+
+The final team activity I contributed to was the educational outreach aspect of the competition. In particular, myself, Kevin, Joseph, and several other USLI team members held a event on campus where we invited a middle school class to build miniature rockets and launch them outdoors. The event as a whole consisted of prebuilding some of the more tedious pieces of the rocket kits ahead of time, giving a brief presentation to the class about the exciting field of rocketry, assisting them in building their own rockets, and monotoring the launching of the rockets for any safety hazards. Overall, the event was a huge success and the team managed to get a class of about 20 to 30 students excited about rocketry and STEM fields in general in a matter of a few hours. This event also had pragmatic benefits for the graded portion of the USLI competition since each of those students contributed towards NASA's "200 indivuals reached" requirement.
+
+\subsubsection{NASA Deliverables}
+As mentioned in the updated requirements document, the biggest part of the final scoring for the competition comes from the documentation required by NASA for the PDR, CDR, FRR, LRR, and PLAR. As a result, myself and the other members of Group 33 have put significant time and energy towards contributing content to, editing, formatting, and submitting said documentation. In particular, I wrote the software-specific sections for the payload (rover) for the PDR document, portions of which were reused in the CDR document. Additionally, I assisted the other members of Group 33 in migrating the written content produced by the other USLI team members via Google Docs and Google Sheets to their equivalents in \LaTeX~for the CDR, making the formatting of all figures, tables, lists, and equations consistent throughout the 200+ page document. Additionally, I created the title page used for the final CDR document, worked together with Kevin to make text float properly around figures, and aided in editing the final document for any spelling, grammar, and clarity errors. Beyond this, myself and the other members of Group 33 created the Overleaf projects and LaTex templates for the CDR and FRR documents to facilate collaboration and provide stucture. Finally, I was responsible for submitting the final deliverables for the CDR to NASA via the team website.
+
+\subsubsection{Capstone Documentation}
+Along with Kevin and Joseph, I have contributed to every piece of documentation required for the CS461 and CS462 courses thus far that were not explicitly individual assignments. This includes the successful completion of:
+\begin{itemize}
+\item the problem statement
+\item the requirements document
+\item the technology review
+\item the design document
+\item the end of term fall progress presentation
+\item the midterm progress report (this document)
+\item the midterm progress presentation
+\end{itemize}
+
+Furthermore, I was responsible for doing research on the various possible technologies the team could utilize for the rover in the realms of software framework, programming language, and operating system to run on the microcontroller. From this research, I created a series of design matricies that assigned scores to each of the three options for these three technologies based on a variety of weighted criteria. These design matricies ultimately assisted the team with arriving at conclusions for the technology review.
+
+Finally, I was responsible for the final editing of the two video presentations created for this project, which mainly invovled cutting the video down to appropriate length, fixing desyncing between audio and video, and cutting out "umms" and dead space. 
+
+\subsubsection{Rover}
+Although the initial plan was for me to focus primarily on the rover, Joseph to focus primarily on the data logger, and Kevin to focus primarily on the team website, the actual workload has shifted significantly since the project has progressed and changed. It's more accurate to say that each of us has worked together on every aspect of the project, with Kevin spearheading the rover software, Kevin and Joseph doing most of the work on the team website, and myself spearheading the administrative and documentation aspects of the project. Overall, my contributions to the rover aspect of this project have the assisting in the creation of the rover movement algorithm, specifically its visual representation via state diagram. Furthermore, using code created by Kevin as a jumping off point, I was able to create the first version of the sonar sensor driver code for the rover in Python. Finally, myself and Joseph worked together to set up two different Raspberry Pis with all necessary software for the development. This included installing Raspbian, installing WiringPi and ROS from source, and connecting the Rasberry Pis to the internet.
+
+\subsubsection{Website}
+As mentioned previously, the majority of the work done on the team website can be credited to Kevin and Joseph. My minor contributions include slight changes to the website title text to make it stand out more against the photo slideshow background, purchasing the osuusli.com domain and linking the GitHub.io repo hosting the website contents to it, and posting the final CDR deliverables to the website. 
+
+\subsection{What's Left to Do}
+Although the team finds itself quickly approaching the competition date in early April, there is still some non-trivial work to be done before Group 33 can consider their responsibilities for the competition complete.
+
+\subsubsection{NASA Deliverables}
+Group 33 will continue to assist in the formatting and editing of the written reports in \LaTeX~for the FRR, LRR, and PLAR and will be responsible for submitting these documents to the team website.
+
+\subsubsection{Rover}
+Although Group 33 has made significant progress on the rover these past few weeks, there are several key tasks that still need to be completed. These include testing the sonar driver code, finishing the driver code for the ADC/microphones, and testing/finetuning the ROS movement algorithm once the all the sensors are installed.
+
+\subsubsection{Data Logger}
+Although the sensor driver code for the data logger is no longer the resposibility of Group 33, the group is still responsible for the creation of the software to visually display altitude and position of the launch vehicle based on data collected by the data logger.
+
+\subsubsection{Capstone Tasks}
+At the very least, Group 33 must still produce a end of term progress report for winter term and participate at the engineering expo as part of CS462 and CS463 class requirements.
+
+\subsection{Problems Impeding Progress/Solutions}
+The problems impeding progress for the project that I have personally encountered are the following:
+\begin{itemize}
+\item Several delays in the purchasing, availability, and installiation of parts, particularly sensors, on the rover testbed, making testing software drivers for these parts difficult or impossible
+\item Many team meetings being scheduled or communicated with less than 24-hours notice, making it difficult for many members to attend
+\item Written content for the CDR not being completed until less than 6 hours before the deadline, giving Group 33 very little time to finishing formatting and editing the document in \LaTeX
+\item Changes in hardware requirements, such as the switch from BeagleBone Black microcontroller to a Teensy for the data logger, forcing changes in the proejct requirements for Group 33
+\item The steep learning curve of and team's lack of experience with ROS making software development for the rover difficult 
+\end{itemize}
+
+The solutions Group 33 has arrived at for some of these problems are the following:
+\begin{itemize}
+\item Group 33 has accomodated changes to the hardware requirements by updating the tech review, the design doc, and the requirments doc to reflect changes to the project requirements and have provided a copy of the updated versions to the CS462 instructors, the group's TA, and Dr. Nancy Squires for approval and review.
+\item Group 33 has succusssfully leveraged the mechanical and electrical engineering students on the USLI team with experience in writing ROS for assistance and example code to aid in addressing the framework's steep learning curve.
+\end{itemize}
+
+\section{Kevin Progress Retrospective}
+% deleted what you want
+My contributions to the University Student Launch Initiative competition have been mixture of both the rover algorithm/drivers and team website. With a hands off approach to the Data logger because of limited availability of the hardware and information on the sensors. Moreover I have participated in two required educational outreach events planned by John Spann. as well as directed by either John Spann or Jeremy Goodrich teaching middle schoolers the basics of rocketry through model rockets and general information of the OSU USLI competition progress.\par
+\subsection{website}
+Expanding on the website during fall term I set the ground work with Joseph Struth on choosing Bootstrap templates and coordinating CSS to the appropriate OSU colors and general format of the website. We also received contributions from Mark Bereza in the form of setup and purchase of the team domain. As well as general content checking for consistency and grammar and general changes requested by both Evan Gonnerman(team lead) and Brad Anderson(Payload EE lead). Over the Course of the competition I have implemented requested changes to the website such as the expanding sidebar containing links pertaining to team resources (Google Drive, Trello, and Github.) Additions of separate pages to the project in the form of the team list with head shots and components for deliverable cards with background images. Outside of my contributions Joseph Struth has done a number of fixes to corresponding to formatting, additions to social media embedded images, and content improvements.\par
+\subsection{LaTex Documents}
+For the LaTex documents associated with the USLI competition specifically the Critical Design Review, each member of the OSU USLI computer science team have inputted significant effort into editing, formatting, and joining team writings. Over the course of week one winter term each CS team member joined writings to a master document specific to mechanical and electrical design and details on rocket/rover manufacturing, safety, and final design choices. Each member of the CS team plus core USLI team members including leadership spent most of the last day perfecting and improving the documents for NASA until 4 am, 2 hours before the Crital Design Review due date. Out of all the computer science USLI team members Mark Bereza had the greatest contributions to this document because of his efficiency during the accelerated timespan. As well as his help teaching core team members on the basics of LaTex and laying ground work for the general structure of the most used commands like wrapped figures or linkable glossary items. In the future for the Flight Readiness Review each member will be contributing to this document in a similar way except with an accelerated time line of two days instead of a week because of full scale launch weather delays and launch vehicle manufacturing problems. In preperation for this document Mark Bereza created lecture for USLI team members detailing the format and code snippets using LaTex.\par
+\subsection{Data Logging Module}
+Moreover the data logger has mainly been a component entrusted to Joseph Struth before the module was unloaded to the OSU USLI electrical engineering team for integration with the Avionics Telemetry Unit (ATU). Before the change Joseph had been communicating with Kyle O'Brian on gathering information on Controllers, Sensors, and specifics for recording data during flight of the launch vehicle. Collectively the USLI computer science team as a whole contributed towards preparing the data logger itself by setting up libraries and updating software. As well as creating scripts to streamlining the process for ssh'ing into the beaglebone black itself to test sensor driver code. Since then the Data logger has been changed to a Teensy micro controller due to size and power restraints. However because of the recent delays on the full scale launch and work left on the data logger the team lead has asked the Computer science team to help and finish up code within the remaining sensors for the component.\par
+\subsection{Rover}
+Over the course of fall term all members of the computer science team conducted research on various components for programming and autonomizing the rover payload of the USLI competition. We decided on the Robot Operating System and Raspberry pi micro controller. During winter break I created a basic structure to the ROS package and began work on some of the drivers for the sensors and components. Specifically the Motor Controller since it is the most critical part to the rover and winning the competition. By the end of the break we had simulations of the rover testbed in rvis as well as a rough version of the motor controller both in CPP and Python, as well as the Basic and intermediate movement algorithms for the rover itself. In addition to some research and basic drivers for the sonar sensors. Over the course of winter term I and the rest of the USLI computer science team collaborated with the USLI electrical engineering team to bring the software and hardware together. This was done by testing the motor driver code and configuring the motors to our needs, thus finalizing them. We also worked in collaboration getting the Analog to digital converters working for the directional microphone sensors and got test data prepared for the electricals to create an algorithm for detecting the angle of sounds corresponding to the rover. Finally we have worked on and still in the process of converting arduino code to python code for the sonar sensors. This conversion of the code was started by myself but will be finalized by Mark Bereza so work can be started on other sensors that are on the rover payload. In the future the computer science team will be doing a transition from collaborating with the electrical engineers to mechanical engineers for physical testing of the rover. Determining final wheel heights and stabilization tail constraints as well as positioning of sonar sensors on rover. To aid in physical testing Joseph Struth has been working on formatting a laptop with a unspecified distribution of linux to allow non computer science team members to interact with the rover with having to need a computer science team member present. Thus freeing some of the computer science teams time allowing for more dedicated time towards research, development, and testing of the rover payload and all of its components.
+
+\appendices
+\section{Interesting Screen shots}
+\subsection{ROS Object Avoidance Simulation}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Selection_001.png}
+	\caption{ROS Object Avoidance Simulation}
+    \label{figure:ROS Object Avoidance Simulation}
+\end{figure}
+\subsection{Team Website}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{USLIindex.png}
+	\caption{Team website home page}
+    \label{figure:Team website home page}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{USLIAbout.png}
+	\caption{About Us section}
+    \label{figure:About Us Section}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{USLIDeliverables.png}
+	\caption{NASA Deliverables Section}
+    \label{NASA Deliverables section}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{USLISocial.png}
+	\caption{Social Media Section}
+    \label{figure:Social Media Section}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{USLITimeline.png}
+	\caption{Project Timeline}
+    \label{figure:Project Timeline}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{USLISponsor.png}
+	\caption{Sponsor Page}
+    \label{figure:Sponsor Page}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{USLIMissionProfile.png}
+	\caption{Mission Profile}
+    \label{figure:Mission Profile}
+\end{figure}
+\section{Interesting pieces of code}
+\subsection{Motor Driver}
+\begin{python}
+class Motor(object):
+    """
+    Enables/Disables and sets speed and direction of single motor.
+    """
+    def __init__(self, pwm_pin, direction_pin, enable_pin):
+        self.pwm_pin = pwm_pin
+        self.direction_pin = direction_pin
+        self.enable_pin = enable_pin
+    def enable(self):
+        wiringpi.digitalWrite(self.enable_pin, 1)
+    def disable(self):
+        wiringpi.digitalWrite(self.enable_pin, 0)
+    def set_speed(self, new_speed, motorDirection):
+        if new_speed > MAX_SPEED:
+            new_speed = MAX_SPEED
+        elif new_speed < -MAX_SPEED:
+            new_speed = -MAX_SPEED
+
+        wiringpi.digitalWrite(self.direction_pin, motorDirection)
+        wiringpi.pwmWrite(self.pwm_pin, new_speed)
+\end{python}
+
+\end{document}
