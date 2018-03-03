@@ -26,7 +26,7 @@ def box():
     M_DRIVER.disable()
 
 if __name__ == "__name__":
-    time.sleep(15)
+    time.sleep(10)
     dual_mc33926.io_init_motor_drive()
     forward()
 

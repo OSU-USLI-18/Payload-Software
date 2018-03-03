@@ -16,6 +16,12 @@ if __name__ == "__main__":
     while True:
         chn0 = mcp.read_adc(0)
         chn1 = mcp.read_adc(1)
+        #chn2 = mcp.read_adc(2)
+        #chn3 = mcp.read_adc(3)
+        #chn4 = mcp.read_adc(4)
+        #chn5 = mcp.read_adc(5)
+        #chn6 = mcp.read_adc(6)
+        #chn7 = mcp.read_adc(7)
         print("{0},{1}").format(chn0, chn1)
         time.sleep(0.5)
 
