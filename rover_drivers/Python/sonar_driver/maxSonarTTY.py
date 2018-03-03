@@ -37,27 +37,31 @@ def measure(portName, charSrt):
             ser.close()
 
             return mm
-            # if not isInstance(unit, str):
-            #     return mm
-            # elif unit.lower() in ["cm", "centimeter", "centimeters"]:
-            #     return (mm * 10)
-            # elif unit.lower() in ["m", "meter", "meters"]:
-            #     return (mm * 1000)
-            # elif unit.lower() in ["in", "in.", "inch", "inches"]:
-            #     return (mm * 25.4)
-            # elif unit.lower() in ["ft", "ft.", "foot", "feet"]:
-            #     return (mm * 304.8)
-            # else:
-            #     return mm
 
     ser.close()
     raise RuntimeError("Expected serial data not received")
 
+def sonarUnitConvert(val_mm, unit):
+    if unit == None:
+        return mm
+    elif unit.lower() in ["cm", "centimeter", "centimeters"]:
+        return (mm * 10)
+    elif unit.lower() in ["m", "meter", "meters"]:
+        return (mm * 1000)
+    elif unit.lower() in ["in", "in.", "inch", "inches"]:
+        return (mm * 25.4)
+    elif unit.lower() in ["ft", "ft.", "foot", "feet"]:
+        return (mm * 304.8)
+    else:
+        return mm
+
 if __name__ == '__main__':
     while True:
-
+        
         Lmeasurement = measure(serialDevice, LeftSonarIndicator)
-        print("Left distance = ", Lmeasurement)
+        if Lmeasurement < 4500:
+            print("Left distance = ", Lmeasurement)
 
         Rmeasurement = measure(serialDevice, RightSonarIndicator)
-        print("Right distance = ", Rmeasurement)
+        if Rmeasurement < 4500:
+            print("Right distance = ", Rmeasurement)
