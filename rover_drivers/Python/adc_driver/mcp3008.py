@@ -1,3 +1,4 @@
+# /usr/bin/env python
 # https://github.com/adafruit/Adafruit_Python_MCP3008
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
