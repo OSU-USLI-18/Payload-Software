@@ -58,22 +58,10 @@ if __name__ == '__main__':
             State = State.AVOIDANCE
     
         if State == State.AVOIDANCE:
-            if LSonarVal > SONAR_THRESH:
+            if LSonarVal < SONAR_THRESH:
                 motorDriver.set_speeds(MOTOR_MAIN_TURN_SP, MOTOR_FWD, MOTOR_OFF_TURN_SP, MOTOR_FWD)
                 time.sleep(TURN_TIME)
-            elif RSonarVal > SONAR_THRESH:
+            elif RSonarVal < SONAR_THRESH:
                 motorDriver.set_speeds(MOTOR_OFF_TURN_SP, MOTOR_FWD, MOTOR_MAIN_TURN_SP, MOTOR_FWD)
                 time.sleep(TURN_TIME)
-            elif LSonarVal > SONAR_THRESH and RSonarVal > SONAR_THRESH:
-                State = State.REVERSE
-                continue
             State = State.FORWARD
-        if State == State.REVERSE:
-                motorDriver.set_speeds(0, MOTOR_FWD, 0, MOTOR_FWD)
-                time.sleep(2)
-                motorDriver.set_speeds(MOTOR_OFF_TURN_SP, MOTOR_BKWD, MOTOR_OFF_TURN_SP, MOTOR_FWD)
-                time.sleep(1)
-                State = State.FORWARD
-            
-            
-    

@@ -18,8 +18,8 @@ MOTOR_FWD = 1
 MOTOR_BKWD = 0
 
 def readSonar():
-     LMeasure = []
-     RMeasure = []
+    LMeasure = []
+    RMeasure = []
     for i in range(0,3):
         LMeasure.append(Sonar.measure(serialDevice, LeftSonarIndicator))
         RMeasure.append(Sonar.measure(serialDevice, RightSonarIndicator))
@@ -44,10 +44,10 @@ if __name__ == '__main__':
         # Read Sonar Average
         LeftSonarVal, RightSonarVal = readSonar()
 
-        if LSonarVal > SONAR_THRESH:
+        if LSonarVal < SONAR_THRESH:
             motorDriver.set_speeds(MOTOR_MAIN_TURN_SP, MOTOR_FWD, MOTOR_OFF_TURN_SP, MOTOR_FWD)
             time.sleep(TURN_TIME)
-        elif RSonarVal > SONAR_THRESH:
+        elif RSonarVal < SONAR_THRESH:
             motorDriver.set_speeds(MOTOR_OFF_TURN_SP, MOTOR_FWD, MOTOR_MAIN_TURN_SP, MOTOR_FWD)
             time.sleep(TURN_TIME)
         
