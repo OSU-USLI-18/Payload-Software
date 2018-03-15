@@ -25,7 +25,7 @@ def measure(portName, charSrt):
                 # data received did not start with R
                 continue
             try:
-                sensorData = testData.decode('utf-8').lstrip(charSrt)
+                sensorData = testData.lstrip(charSrt).decode("utf-8")
             except UnicodeDecodeError:
                 # data received could not be decoded properly
                 continue
@@ -60,7 +60,7 @@ if __name__ == '__main__':
         
         Lmeasurement = measure(serialDevice, LeftSonarIndicator)
         if Lmeasurement < 4500:
-            print("Left distance = ", Lmeasurement)
+            print(" Left distance = ", Lmeasurement)
 
         Rmeasurement = measure(serialDevice, RightSonarIndicator)
         if Rmeasurement < 4500:
