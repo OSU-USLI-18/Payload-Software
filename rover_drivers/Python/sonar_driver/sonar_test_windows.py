@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from sonar  import Sonar
 from serial import Serial
 from random import *
