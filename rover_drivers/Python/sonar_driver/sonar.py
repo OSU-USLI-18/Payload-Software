@@ -1,5 +1,4 @@
 from serial import Serial
-from time   import time
 
 class Sonar:
     """
@@ -73,19 +72,21 @@ class Sonar:
             which_sonar (str):  Indicator string for the sample's sonar
         """
 
-        end_time = time() + self.timeout
-
-        # Tries to acquire serial data until timeout is reached.
-        while time() < end_time:
+        while True:
             # Initialize loop variables.
             bytes = b''
             which_sonar = self._next_sonar
   
             # Keep reading bytes until we see a sonar indicator.
             byte = self._serial.read()
-            while byte not in [self._l_start, self._r_start]:
+            while byte not in [self._l_start, self._r_start, b'']:
                 bytes += byte
                 byte = self._serial.read()
+
+            # Closes the serial port and raises exception if timeout is reached.
+            if byte == b'':
+                self._serial.close()
+                raise TimeoutError("Expected serial data not received")
 
             # The read sonar indicator is for the next value.
             self._next_sonar = byte
@@ -95,20 +96,16 @@ class Sonar:
                 self._read_first = True
                 continue
 
-            # Decode and convert the bytes, skip the sample if we can't.
+            # Try to decode and convert the bytes.
             try:
                 sample = int(bytes.decode())
-            except:
-                continue
+            except (ValueError, UnicodeDecodeError):
+                raise ValueError("Invalid data: " + str(bytes))
 
             # Return measurement and sonar indicator if within threshold.
             if sample > self.upper_bound:
                 continue
-            return sample, which_sonar
-
-        # Closes the serial port and raises exception if timeout is reached.
-        self._serial.close()
-        raise RuntimeError("Expected serial data not received")
+            return sample, which_sonar 
 
     def _convert(self, value):
         """Converts a value in millimeters to the Sonar's specified unit."""
