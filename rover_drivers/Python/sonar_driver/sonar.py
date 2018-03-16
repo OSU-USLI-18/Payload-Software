@@ -144,7 +144,7 @@ class Sonar:
                 if buffer_len > 0:
                     result = sum(self._buffers[which_sonar]) / float(buffer_len)
                     if self.unit != "mm":
-                        result = self._convert(avg)
+                        result = self._convert(result)
                     self._buffers[which_sonar] = [] # Clear buffer
                     return result, which_sonar
 
