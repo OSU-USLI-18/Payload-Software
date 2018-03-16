@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6e17c2e4-ff30-4c65-8596-b4cc5226de9d}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>sonar_test.py</StartupFile>
+    <StartupFile>sonar_test_windows.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -24,9 +24,7 @@
     <Compile Include="rangeFind.py" />
     <Compile Include="softwareSerial.py" />
     <Compile Include="sonar.py" />
-    <Compile Include="sonar_test.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="sonar_test_windows.py" />
     <Compile Include="__init__.py">
       <SubType>Code</SubType>
     </Compile>

@@ -7,8 +7,6 @@ class Sonar:
 
     Attributes:
         timeout (int):      Number of seconds to wait for sonar data
-        l_start (str):      Indicates the start of left sonar data
-        r_start (str):      Indicates the start of right sonar data
         buffer_size (int):  Number of data samples to buffer and average
         unit (str):         The desired unit of the outputted measurements
         upper_bound (int):  Any sample above this (in mm) is discarded
@@ -16,17 +14,14 @@ class Sonar:
                             proportion of their average are kept
     """
 
-    def __init__(self, device="/dev/ttyAMA0", timeout=3, l_start='L',
-                 r_start='R', buffer_size=3, unit="mm", upper_bound=4500, 
-                 threshold=0.1):
+    def __init__(self, device="/dev/ttyAMA0", timeout=3, buffer_size=3,
+                 unit="mm", upper_bound=4500, threshold=0.2):
         """
         Constructs a Sonar object using a series of overridable default params.
 
         Keyword Arguments:
             device (str):       Name of the serial device being read.
             timeout (int):      Number of seconds to wait for sonar data
-            l_start (str):      Indicates the start of left sonar data
-            r_start (str):      Indicates the start of right sonar data
             buffer_size (int):  Number of data samples to buffer and average
             unit (str):         The desired unit of the outputted measurements
             upper_bound (int):  Any sample above this (in mm) is discarded
@@ -39,8 +34,8 @@ class Sonar:
 
         # Initialize class attributes.
         self.timeout = timeout
-        self.l_start = l_start
-        self.r_start = r_start
+        self._l_start = b'L'
+        self._r_start = b'R'
         self.buffer_size = 3
         if unit.lower() in ["mm", "millimeter", "millimeters"]:
             self.unit = "mm"
@@ -56,18 +51,20 @@ class Sonar:
             raise Exception("Invalid unit")
         self.upper_bound = upper_bound
         self.threshold = threshold
+        self._next_sonar = b''
+        self._read_first = False
 
         # Creates two buffers, one for each sonar.
-        self._buffers = {l_start: [], r_start: []}
+        self._buffers = {self._l_start: [], self._r_start: []}
 
         # Holds conversion ratios from millimeters to other units.
         self._conversions = { "mm": 1.0,
                               "cm": 10.0,
-                              "m":  1000.0,
+                               "m": 1000.0,
                               "in": 25.4,
                               "ft": 304.8 }
 
-    def get_sample(self):
+    def sample(self):
         """
         Gets a single sample from one of the sonars without averaging.
 
@@ -76,41 +73,46 @@ class Sonar:
             which_sonar (str):  Indicator string for the sample's sonar
         """
 
-        start_time = time()
+        end_time = time() + self.timeout
 
         # Tries to acquire serial data until timeout is reached.
-        while time() < start_time + self.timeout:
-            if self._serial.inWaiting():
-                bytes_to_read = self._serial.inWaiting()
+        while time() < end_time:
+            # Initialize loop variables.
+            bytes = b''
+            which_sonar = self._next_sonar
+  
+            # Keep reading bytes until we see a sonar indicator.
+            byte = self._serial.read()
+            while byte not in [self._l_start, self._r_start]:
+                bytes += byte
+                byte = self._serial.read()
 
-                # Read the sample and decode it, skip it if we can't.
-                try:
-                    sample = self._serial.read(bytes_to_read).decode()
-                except:
-                    continue
+            # The read sonar indicator is for the next value.
+            self._next_sonar = byte
 
-                # Store the indicator string, skip if none found.
-                if sample.startswith(self.l_start):
-                    which_sonar = self.l_start
-                elif sample.startswith(self.r_start):
-                    which_sonar = self.r_start
-                else:
-                    continue
+            # First sample may be malformed, skip it.
+            if not self._read_first:
+                self._read_first = True
+                continue
 
-                # Strip the indicator string and convert, skip it if we can't.
-                try:
-                    sample = int(sample.lstrip(which_sonar))
-                except:
-                    continue
+            # Decode and convert the bytes, skip the sample if we can't.
+            try:
+                sample = int(bytes.decode())
+            except:
+                continue
 
-                # Return measurement and sonar indicator if within threshold.
-                if sample > self.upper_bound:
-                    continue
-                return sample, which_sonar
+            # Return measurement and sonar indicator if within threshold.
+            if sample > self.upper_bound:
+                continue
+            return sample, which_sonar
 
         # Closes the serial port and raises exception if timeout is reached.
         self._serial.close()
         raise RuntimeError("Expected serial data not received")
+
+    def _convert(self, value):
+        """Converts a value in millimeters to the Sonar's specified unit."""
+        return value / self._conversions[self.unit]
 
     def measure(self):
         """
@@ -124,36 +126,47 @@ class Sonar:
         # Reads samples until a measurement is generated.
         while True:
             # Get a sample and add it to the corresponding buffer.
-            empty = False
-            sample, which_sonar = self.get_sample()
+            sample, which_sonar = self.sample()
             self._buffers[which_sonar].append(sample)
 
-            buffer_length = float(len(self._buffers[which_sonar]))
+            # If the buffer is full, try to generate a measurement.
+            buffer_len = len(self._buffers[which_sonar])
+            if buffer_len >= self.buffer_size:
+                avg = sum(self._buffers[which_sonar]) / float(buffer_len)
 
-            # If the buffer is full, try to generate a measurement.      
-            if buffer_length >= self.buffer_size:
-                avg = sum(self._buffers[which_sonar]) / buffer_length
-
-                # Discard buffers with outliers.
+                # Discard outliers.
                 for x in self._buffers[which_sonar]:
                     if abs(x - avg) > (avg * self.threshold):
-                        self._buffers[which_sonar] = []
-                        empty = True
-                        break
+                        self._buffers[which_sonar].remove(x)
+                        buffer_len -= 1
 
-                # Average the samples and round the result.
-                if not empty:
+                # Average the remaining samples and convert the result.
+                if buffer_len > 0:
+                    result = sum(self._buffers[which_sonar]) / float(buffer_len)
                     if self.unit != "mm":
-                        converted_avg = self._convert(avg)
-                    self._buffers[which_sonar] = []
-                    result = round(converted_avg, 4)
+                        result = self._convert(avg)
+                    self._buffers[which_sonar] = [] # Clear buffer
                     return result, which_sonar
 
-    def _convert(self, value):
-        """Converts a value in millimeters to the Sonar's specified unit."""
-        return value / self._conversions[self.unit]
+    def _pretty_print(self, value, which_sonar):
+        """
+        Pretty prints a value/sonar pair.
+
+        Arguments:
+            value (float):          The measurement to be printed
+            which_sonar (bytes):    Bytestring indicator for the sonar device
+        """
+        print(which_sonar.decode() + ":", "{0:.2f}".format(value).rjust(7))
+
+    def pretty_sample(self):
+        """Pretty prints a sample."""
+        self._pretty_print(*self.sample())
+
+    def pretty_measure(self):
+        """Pretty prints a measurement."""
+        self._pretty_print(*self.measure())
 
     def __del__(self):
-        """Destructor for Sonar simply closes its serial port."""
-        if hasattr(self, "_serial") and self._serial.isOpen():
+        """Destructor for Sonar simply closes its serial port if open."""
+        if hasattr(self, "_serial") and self._serial.is_open:
             self._serial.close()
