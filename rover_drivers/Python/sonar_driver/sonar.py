@@ -16,7 +16,7 @@ class Sonar:
                             proportion of their average are kept
     """
 
-    def __init__(self, device="dev/ttmyAMA0", timeout=3, l_start='L',
+    def __init__(self, device="/dev/ttyAMA0", timeout=3, l_start='L',
                  r_start='R', buffer_size=3, unit="mm", upper_bound=4500, 
                  threshold=0.1):
         """
@@ -124,6 +124,7 @@ class Sonar:
         # Reads samples until a measurement is generated.
         while True:
             # Get a sample and add it to the corresponding buffer.
+            empty = False
             sample, which_sonar = self.get_sample()
             self._buffers[which_sonar].append(sample)
 
@@ -133,19 +134,19 @@ class Sonar:
             if buffer_length >= self.buffer_size:
                 avg = sum(self._buffers[which_sonar]) / buffer_length
 
-                # Discard outliers.
+                # Discard buffers with outliers.
                 for x in self._buffers[which_sonar]:
                     if abs(x - avg) > (avg * self.threshold):
-                        self._buffers[which_sonar].remove(x)
+                        self._buffers[which_sonar] = []
+                        empty = True
+                        break
 
-                buffer_length = float(len(self._buffers[which_sonar]))
-
-                # Average the remaining samples and convert/round the result.
-                if buffer_length > 0:
-                    result = sum(self._buffers[which_sonar]) / buffer_length
+                # Average the samples and round the result.
+                if not empty:
                     if self.unit != "mm":
-                        result = self._convert(result)
-                    result = int(round(result))
+                        converted_avg = self._convert(avg)
+                    self._buffers[which_sonar] = []
+                    result = round(converted_avg, 4)
                     return result, which_sonar
 
     def _convert(self, value):
@@ -154,5 +155,5 @@ class Sonar:
 
     def __del__(self):
         """Destructor for Sonar simply closes its serial port."""
-        if self._serial.isOpen():
+        if hasattr(self, "_serial") and self._serial.isOpen():
             self._serial.close()
