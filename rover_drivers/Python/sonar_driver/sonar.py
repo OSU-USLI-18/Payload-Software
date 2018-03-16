@@ -153,4 +153,5 @@ class Sonar:
 
     def __del__(self):
         """Destructor for Sonar simply closes its serial port."""
-        self._serial.close()
+        if self._serial.isOpen():
+            self._serial.close()
