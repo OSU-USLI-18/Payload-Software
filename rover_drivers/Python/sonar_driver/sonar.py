@@ -92,7 +92,7 @@ class Sonar:
                 # Store the indicator string, skip if none found.
                 if sample.startswith(self.l_start):
                     which_sonar = self.l_start
-                elif sample.startwith(self.r_start):
+                elif sample.startswith(self.r_start):
                     which_sonar = self.r_start
                 else:
                     continue
@@ -140,11 +140,12 @@ class Sonar:
 
                 buffer_length = float(len(self._buffers[which_sonar]))
 
-                # Average, convert, and return the remaining samples.
+                # Average the remaining samples and convert/round the result.
                 if buffer_length > 0:
                     result = sum(self._buffers[which_sonar]) / buffer_length
                     if self.unit != "mm":
                         result = self._convert(result)
+                    result = int(round(result))
                     return result, which_sonar
 
     def _convert(self, value):
