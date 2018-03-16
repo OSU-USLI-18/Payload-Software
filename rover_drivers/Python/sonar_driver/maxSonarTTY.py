@@ -4,7 +4,7 @@ from time   import time
 from serial import Serial
 
 serialDevice = "/dev/ttyAMA0"   # default for RaspberryPi
-maxwait      = 3                # seconds to try for a good reading before quitting
+maxwait = 3                     # seconds to try for a good reading before quitting
 
 RightSonarIndicator = b'R'
 LeftSonarIndicator = b'L'
@@ -45,13 +45,13 @@ def sonarUnitConvert(val_mm, unit):
     if unit == None:
         return mm
     elif unit.lower() in ["cm", "centimeter", "centimeters"]:
-        return (mm * 10)
+        return (mm / 10.0)
     elif unit.lower() in ["m", "meter", "meters"]:
-        return (mm * 1000)
+        return (mm / 1000.0)
     elif unit.lower() in ["in", "in.", "inch", "inches"]:
-        return (mm * 25.4)
+        return (mm / 25.4)
     elif unit.lower() in ["ft", "ft.", "foot", "feet"]:
-        return (mm * 304.8)
+        return (mm / 304.8)
     else:
         return mm
 

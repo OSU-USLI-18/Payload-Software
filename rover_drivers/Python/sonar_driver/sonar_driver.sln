@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sonar_driver", "sonar_driver.pyproj", "{6E17C2E4-FF30-4C65-8596-B4CC5226DE9D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E17C2E4-FF30-4C65-8596-B4CC5226DE9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E17C2E4-FF30-4C65-8596-B4CC5226DE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C75DC414-603E-46C9-90FF-7EFF544FD501}
+	EndGlobalSection
+EndGlobal
