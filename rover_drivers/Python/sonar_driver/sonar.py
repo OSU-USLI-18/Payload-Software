@@ -35,7 +35,7 @@ class Sonar:
         self.timeout = timeout
         self._l_start = b'L'
         self._r_start = b'R'
-        self.buffer_size = 3
+        self.buffer_size = buffer_size
         if unit.lower() in ["mm", "millimeter", "millimeters"]:
             self.unit = "mm"
         elif unit.lower() in ["cm", "centimeter", "centimeters"]:
@@ -98,7 +98,8 @@ class Sonar:
 
             # Try to decode and convert the bytes.
             try:
-                sample = int(bytes.decode())
+                sample = bytes.decode()
+                sample = int(sample)
             except (ValueError, UnicodeDecodeError):
                 raise ValueError("Invalid data: " + str(bytes))
 
