@@ -16,7 +16,7 @@ def backward():
     time.sleep(30)
     M_DRIVER.disable()
 
-if __name__ == "__name__":
+if __name__ == "__main__":
     dual_mc33926.io_init_motor_drive()
     while True:
         forward()

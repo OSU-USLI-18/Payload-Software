@@ -2,7 +2,7 @@ import time
 import RPi.GPIO as GPIO
 
 
-def deploy_servos():
+def deploy_solar():
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(12,GPIO.OUT)
 
