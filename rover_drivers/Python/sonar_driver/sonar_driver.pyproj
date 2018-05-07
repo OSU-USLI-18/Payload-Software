@@ -21,6 +21,9 @@
   <ItemGroup>
     <Compile Include="maxSonarTTY.py" />
     <Compile Include="mb7360-hrxl.py" />
+    <Compile Include="obstacle_avoidance.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="rangeFind.py" />
     <Compile Include="softwareSerial.py" />
     <Compile Include="sonar.py" />

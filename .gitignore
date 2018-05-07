@@ -12,5 +12,8 @@
 *.fls
 *.fdb_latexmk
 *.lof
-/capstone-documentation/33_midterm_progress_report/Group_33_Midterm_Progress_Presentation.mp4
-/capstone-documentation/33_midterm_progress_report/Group_33_Midterm_Progress_Presentation.pptx
+*.mp4
+*.pptx
+/capstone-documentation/33_winter_progress_report/berezam_winter_progress_report/*
+/capstone-documentation/33_winter_progress_report/berezam_winter_progress_report/*
+/capstone-documentation/berezam_wired_article/MarkBereza_WIRED_text.docx

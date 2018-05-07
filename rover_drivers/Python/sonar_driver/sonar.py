@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from serial import Serial
 
 class Sonar:
@@ -13,8 +15,8 @@ class Sonar:
                             proportion of their average are kept
     """
 
-    def __init__(self, device="/dev/ttyAMA0", timeout=3, buffer_size=3,
-                 unit="mm", upper_bound=4500, threshold=0.2):
+    def __init__(self, device="/dev/ttyAMA0", timeout=3, buffer_size=5,
+                 unit="mm", upper_bound=4500, threshold=0.1):
         """
         Constructs a Sonar object using a series of overridable default params.
 
@@ -98,7 +100,7 @@ class Sonar:
 
             # Try to decode and convert the bytes.
             try:
-                sample = bytes.decode()
+                sample = bytes.decode("utf-8")
                 sample = int(sample)
             except (ValueError, UnicodeDecodeError):
                 raise ValueError("Invalid data: " + str(bytes))
@@ -154,7 +156,7 @@ class Sonar:
             value (float):          The measurement to be printed
             which_sonar (bytes):    Bytestring indicator for the sonar device
         """
-        print(which_sonar.decode() + ":", "{0:.2f}".format(value).rjust(7))
+        print(which_sonar.decode("utf-8") + ":", "{0:.2f}".format(value).rjust(7))
 
     def pretty_sample(self):
         """Pretty prints a sample."""
@@ -168,3 +170,9 @@ class Sonar:
         """Destructor for Sonar simply closes its serial port if open."""
         if hasattr(self, "_serial") and self._serial.is_open:
             self._serial.close()
+
+"""The main method simply runs the sonar with default parameters and prints to the console."""
+if __name__ == "__main__":
+    device = Sonar()
+    while True:
+        device.pretty_measure()
