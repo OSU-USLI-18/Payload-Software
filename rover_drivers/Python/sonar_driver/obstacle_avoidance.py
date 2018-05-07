@@ -23,6 +23,7 @@ class Obstacle_Avoidance:
     """
 
     class Direction(Enum):
+        """This enumerates the possible directions the rover can move/turn."""
         FORWARD  = 1
         BACKWARD = 2
         RIGHT    = 3
