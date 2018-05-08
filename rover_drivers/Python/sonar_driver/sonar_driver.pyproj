@@ -19,13 +19,10 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="maxSonarTTY.py" />
-    <Compile Include="mb7360-hrxl.py" />
+    <Compile Include="dual_mc33926.py" />
     <Compile Include="obstacle_avoidance.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="rangeFind.py" />
-    <Compile Include="softwareSerial.py" />
     <Compile Include="sonar.py" />
     <Compile Include="sonar_test_windows.py" />
     <Compile Include="__init__.py">
