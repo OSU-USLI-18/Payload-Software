@@ -48,11 +48,14 @@ class Obstacle_Avoidance:
             offset (float):         Refer to the offset class attribute.
             debug (bool):           Flag that controls whether or not to allow remote debugging.
         """
+        # If debug is enabled, wait for the remote debugger to attach before continuing.
         if debug:
             ptvsd.enable_attach("rover_senpai")
+            print("Waiting for debugger to attach...", file=stderr)
             ptvsd.wait_for_attach()
+            print("Debugger attached, continuing...", file=stderr)
 
-        dual_mc33926.io_init_motor_drive()
+        dual_mc33926.io_init_motor_drive()  # Initializes the motor driver.
         self.max_speed     = max_speed
         self.decel_rate    = decel_rate
         self.turn_time     = turn_time
@@ -60,9 +63,9 @@ class Obstacle_Avoidance:
         self.turn_dist     = turn_dist
         self.reverse_dist  = reverse_dist
         self.offset        = offset
-        self._sonar_data   = (0, b'')
-        self._condition    = Condition()
-        self._stop_flag    = False
+        self._sonar_data   = (0, b'')       # Distance and the sonar indicator (b'L' or b'R').
+        self._stop_flag    = False          # Causes the threads to stop when set to true.
+        self._condition    = Condition()    # Condition object protects _sonar_data and _stop_flag.
         self._sonar        = Sonar(threshold=threshold, buffer_size=buffer_size)
         self._motor        = dual_mc33926.MotorDriver()
         self._sonar_thread = Thread(target=self._run_sonar, daemon=True)
@@ -71,6 +74,7 @@ class Obstacle_Avoidance:
     def _run_sonar(self):
         """Continously runs the sonars and notifies the motor thread whenever an object is close."""
         while True:
+            # Gets a measurement from the sonars.
             dist, dir = self._sonar.measure()
 
             # If the measured sonar distance is less than our turning threshold...
