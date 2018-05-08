@@ -14,48 +14,53 @@ class Obstacle_Avoidance:
     in parallel.
 
     Attributes:
+        max_speed (int):        The maximum speed value for the motor driver.
+        decel_rate (float):     How quickly (from 0 to 1) the rover should decelerate.
         turn_time (float):      How long (in seconds) the rover should turn left or right.
         reverse_time (float):   How long (in seconds) the rover should reverse.
         turn_dist (int):        How close an obstacle must be (in mm) before the rover turns.
         reverse_dist (int):     How close an obstacle must be (in mm) before the rover reverses.
         offset (float):         Since the wheels aren't straight, one wheel will turn slower.
-        flip (bool):            Flag that allows the class to account for reverse wheel wiring.
     """
 
     class Direction(Enum):
         """This enumerates the possible directions the rover can move/turn."""
-        FORWARD  = 1
-        BACKWARD = 2
-        RIGHT    = 3
-        LEFT     = 4
+        FORWARD  = 0
+        BACKWARD = 1
+        RIGHT    = 2
+        LEFT     = 3
 
-    def __init__(self, threshold=0.1, buffer_size=5, turn_time=1, reverse_time=1, turn_dist=1000,
-                 reverse_dist=500, offset=0.8, flip=False):
+    def __init__(self, threshold=0.1, buffer_size=5, max_speed=480, decel_rate=0.05, turn_time=1,
+                 reverse_time=1, turn_dist=1000, reverse_dist=500, offset=0.8):
         """
         Constructs an Obstacle_Avoidance object using a series of overridable default parameters.
 
         Keyword Arguments:
             threshold (float):      What threshold value to pass to the Sonar object.
             buffer_size (int):      What buffer_size value to pass to the Sonar object.
+            max_speed (int):        Refer to the max_speed class attribute.
+            decel_rate (float):     Refer to the decel_rate class attribute.
             turn_time (float):      Refer to the turn_time class attribute.
             reverse_time (float):   Refer to the reverse_time class attribute.
             turn_dist (int):        Refer to the turn_dist class attribute.
             reverse_dist (int):     Refer to the reverse_dist class attribute.
             offset (float):         Refer to the offset class attribute.
-            flip (bool):            Refer to the flip class attribute.
         """
-        self.turn_time    = turn_time
-        self.reverse_time = reverse_time
-        self.turn_dist    = turn_dist
-        self.reverse_dist = reverse_dist
-        self.offset       = offset
-        self.flip         = flip
-        self._sonar_data  = (0, b'')
-        self._condition   = Condition()
-        self._stop_flag   = False
-        self._sonar       = Sonar(threshold=threshold, buffer_size=buffer_size)
-        self._motor       = dual_mc33926.MotorDriver()
-        self._running     = False
+        dual_mc33926.io_init_motor_drive()
+        self.max_speed     = max_speed
+        self.decel_rate    = decel_rate
+        self.turn_time     = turn_time
+        self.reverse_time  = reverse_time
+        self.turn_dist     = turn_dist
+        self.reverse_dist  = reverse_dist
+        self.offset        = offset
+        self._sonar_data   = (0, b'')
+        self._condition    = Condition()
+        self._stop_flag    = False
+        self._sonar        = Sonar(threshold=threshold, buffer_size=buffer_size)
+        self._motor        = dual_mc33926.MotorDriver()
+        self._sonar_thread = Thread(target=self._run_sonar, daemon=True)
+        self._motor_thread = Thread(target=self._run_motor, daemon=True)
 
     def _run_sonar(self):
         """Continously runs the sonars and notifies the motor thread whenever an object is close."""
@@ -78,8 +83,7 @@ class Obstacle_Avoidance:
 
     def _run_motor(self):
         """Continuously runs the motors and turns away from any obstacles deteced by the sonars."""
-        max = 480   # The motor's max speed.
-        flip = self.flip
+        self._motor.enable()
 
         def move(direction=Direction.FORWARD, duration=None):
             """
@@ -89,33 +93,35 @@ class Obstacle_Avoidance:
                 direction (Direction):  The direction the rover should turn/move.
                 duration (float):       How long the rover should move in this direction.
             """
-            # First, stop whatever the motors were doing before.
-            self._motor.disable()
+            # First, gradually stop whatever the motors were doing before.
+            for i in range(1 - self.decel_rate, 0, -self.decel_rate):
+                self._motor.set_speeds(self._spd1 * i, self._dir1, self._spd2 * i, self._dir2)
+                sleep(0.05)
 
-            # If the flip flag is set, movement is reversed.
-            if flip:
-                if direction == Direction.FORWARD:
-                    motor_driver.set_speeds(max, 1, max * offset, 1)
-                elif direction == Direction.BACKWARD:
-                    motor_driver.set_speeds(max, 0, max * offset, 0)
-                elif direction == Direction.RIGHT:
-                    motor_driver.set_speeds(0, 1, max * offset, 1)
-                else:
-                    motor_driver.set_speeds(max, 1, 0, 1)
-
-            # Otherwise, perform standard movement.
+            # Determine speed and direction of motors based on the desired direction.
+            if direction == Direction.FORWARD:
+                self._spd1 = self.max_speed
+                self._spd2 = self.max_speed * self.offset
+                self._dir1 = 1
+                self._dir2 = 1
+            elif direction == Direction.BACKWARD:
+                self._spd1 = self.max_speed
+                self._spd2 = self.max_speed * self.offset
+                self._dir1 = 0
+                self._dir2 = 0
+            elif direction == Direction.RIGHT:
+                self._spd1 = 0
+                self._spd2 = self.max_speed * self.offset
+                self._dir1 = 1
+                self._dir2 = 1
             else:
-                if direction == Direction.FORWARD:
-                    motor_driver.set_speeds(max, 1, max * offset, 1)
-                elif direction == Direction.BACKWARD:
-                    motor_driver.set_speeds(max, 0, max * offset, 0)
-                elif direction == Direction.RIGHT:
-                    motor_driver.set_speeds(max, 1, 0, 1)
-                else:
-                    motor_driver.set_speeds(0, 1, max * offset, 1)
+                self._spd1 = self.max_speed
+                self._spd2 = 0
+                self._dir1 = 1
+                self._dir2 = 1
 
             # Start moving.
-            self._motor.enable()
+            self._motor.set_speeds(self._spd1, self._dir1, self._spd2, self._dir2)
 
             # Wait for a duration (if specified) before accepting another move command.
             if (type(duration) in [int, float]) and (duration >= 0):
@@ -155,28 +161,28 @@ class Obstacle_Avoidance:
             else:
                 raise ValueError("Invalid sonar label")
 
+        # Disable the motors once we break out of the loop.
+        self._motor.disable()
+
     def start(self):
         """This method starts the obstacle avoidance algorithm."""
-        if not self._running:
-            self._sonar_thread = Thread(target=self._run_sonar, daemon=True)
-            self._motor_thread = Thread(target=self._run_motor, daemon=True)
+        if not (self._motor_thread.is_alive() and self._sonar_thread.is_alive()):
+            self._stop_flag = False
             self._sonar_thread.start()
             self._motor_thread.start()
-            self._running = True
             print("Obstacle avoidance is now running.", file=stderr)
         else:
             print("Obstacle avoidance is already running.", file=stderr)
 
     def stop(self):
         """This method stops the obstacle avoidance algorithm."""
-        if self._running:
+        if self._motor_thread.is_alive() and self._sonar_thread.is_alive():
             self._condition.acquire()
             self._stop_flag = True
             self._condition.notify_all()
             self._condition.release()
             self._sonar_thread.join()
             self._motor_thread.join()
-            self._running = False
             print("Obstacle avoidance has stopped.", file=stderr)
         else:
             print("Obstacle avoidance is not currently running.", file=stderr)
@@ -186,7 +192,7 @@ if __name__ == "__main__":
     algorithm = Obstacle_Avoidance()
     algorithm.start()
 
-    # Continue running until we recieve a keyboard interrupt (Ctrl+C).
+    # Continue running until we receive a keyboard interrupt (Ctrl+C).
     try:
         while True:
             pass
