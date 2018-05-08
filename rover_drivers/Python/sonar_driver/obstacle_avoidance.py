@@ -7,6 +7,7 @@ from sys import stderr
 from time import sleep
 from enum import Enum
 import dual_mc33926
+import ptvsd
 
 class Obstacle_Avoidance:
     """
@@ -31,7 +32,7 @@ class Obstacle_Avoidance:
         LEFT     = 3
 
     def __init__(self, threshold=0.1, buffer_size=5, max_speed=480, decel_rate=0.05, turn_time=1,
-                 reverse_time=1, turn_dist=1000, reverse_dist=500, offset=0.8):
+                 reverse_time=1, turn_dist=1000, reverse_dist=500, offset=0.8, debug=False):
         """
         Constructs an Obstacle_Avoidance object using a series of overridable default parameters.
 
@@ -45,7 +46,12 @@ class Obstacle_Avoidance:
             turn_dist (int):        Refer to the turn_dist class attribute.
             reverse_dist (int):     Refer to the reverse_dist class attribute.
             offset (float):         Refer to the offset class attribute.
+            debug (bool):           Flag that controls whether or not to allow remote debugging.
         """
+        if debug:
+            ptvsd.enable_attach("rover_senpai")
+            ptvsd.wait_for_attach()
+
         dual_mc33926.io_init_motor_drive()
         self.max_speed     = max_speed
         self.decel_rate    = decel_rate
@@ -124,7 +130,7 @@ class Obstacle_Avoidance:
             self._motor.set_speeds(self._spd1, self._dir1, self._spd2, self._dir2)
 
             # Wait for a duration (if specified) before accepting another move command.
-            if (type(duration) in [int, float]) and (duration >= 0):
+            if (type(duration) in [int, float]) and (duration > 0):
                 sleep(duration)
             else:
                 raise ValueError("Invalid duration")
@@ -189,7 +195,7 @@ class Obstacle_Avoidance:
 
 if __name__ == "__main__":
     """The main method simply runs obstacle avoidance with the default class parameters."""
-    algorithm = Obstacle_Avoidance()
+    algorithm = Obstacle_Avoidance(debug=True)
     algorithm.start()
 
     # Continue running until we receive a keyboard interrupt (Ctrl+C).

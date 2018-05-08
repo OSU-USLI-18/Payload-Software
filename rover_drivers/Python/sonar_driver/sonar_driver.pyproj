@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6e17c2e4-ff30-4c65-8596-b4cc5226de9d}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>sonar_test_windows.py</StartupFile>
+    <StartupFile>obstacle_avoidance.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
