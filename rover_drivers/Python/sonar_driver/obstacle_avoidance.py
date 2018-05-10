@@ -136,8 +136,6 @@ class Obstacle_Avoidance:
             # Wait for a duration (if specified) before accepting another move command.
             if (type(duration) in [int, float]) and (duration > 0):
                 sleep(duration)
-            else:
-                raise ValueError("Invalid duration")
 
         # The rover continuously moves forward, reversing and turning away from detected obstacles.
         while True:
