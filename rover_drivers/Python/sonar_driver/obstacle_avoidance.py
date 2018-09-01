@@ -1,13 +1,14 @@
 #!/usr/bin/python3
 
-from sonar import Sonar
-from threading import Thread, Condition
-from copy import deepcopy
-from sys import stderr
-from time import sleep
-from enum import Enum
 import dual_mc33926
 import ptvsd
+
+from copy      import deepcopy
+from enum      import Enum
+from sonar     import Sonar
+from sys       import stderr
+from threading import Thread, Condition
+from time      import sleep
 
 class Obstacle_Avoidance:
     """
